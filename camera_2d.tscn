@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://bayv8ioqsnh2e"]
+
+[ext_resource type="Script" path="res://FullGame/Camera2D.gd" id="1_0r3v8"]
+
+[node name="Camera2D" type="Camera2D"]
+anchor_mode = 0
+zoom = Vector2(1.5, 1.5)
+editor_draw_limits = true
+editor_draw_drag_margin = true
+script = ExtResource("1_0r3v8")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_right = 36.0
+offset_bottom = 26.0
+size_flags_horizontal = 4
+text = "x"
+horizontal_alignment = 1

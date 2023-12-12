@@ -1,0 +1,62 @@
+[gd_scene load_steps=2 format=3 uid="uid://ccih1771i7epu"]
+
+[ext_resource type="Script" path="res://Castle/UICastle.gd" id="1_qq0vv"]
+
+[node name="UI" type="CanvasLayer"]
+script = ExtResource("1_qq0vv")
+
+[node name="CastleControl" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="CastleControl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.376471, 0.117647, 0.0745098, 0.713726)
+
+[node name="Label" type="Label" parent="CastleControl"]
+layout_mode = 2
+offset_right = 1600.0
+offset_bottom = 61.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 42
+text = "Tekst"
+
+[node name="Panel" type="Panel" parent="CastleControl"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -230.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 8
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CastleControl/Panel"]
+layout_mode = 2
+offset_left = -174.0
+offset_bottom = 136.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 8
+
+[node name="Button" type="Button" parent="CastleControl/Panel/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "Button1
+"
+
+[node name="Button2" type="Button" parent="CastleControl/Panel/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "Button2
+"

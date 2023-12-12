@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://eixrkhijdpus"]
+
+[ext_resource type="Script" path="res://archer.gd" id="1_upenx"]
+[ext_resource type="Texture2D" uid="uid://b5a5acqrhspot" path="res://icon.svg" id="2_np37f"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pifoc"]
+size = Vector2(124, 126)
+
+[node name="Area2D" type="Area2D"]
+script = ExtResource("1_upenx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_np37f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_pifoc")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="texture_changed" from="Sprite2D" to="." method="_on_sprite_2d_texture_changed"]

@@ -1,0 +1,131 @@
+[gd_scene load_steps=3 format=3 uid="uid://dxr5sl3lgrive"]
+
+[ext_resource type="Script" path="res://Castle/Control/type_army.gd" id="1_3cl22"]
+[ext_resource type="Texture2D" uid="uid://c0s0rbwx3ocuk" path="res://TypeArmy/Medival/Knight.png" id="2_5lgne"]
+
+[node name="VBoxContainer" type="VBoxContainer"]
+offset_right = 300.0
+offset_bottom = 395.0
+size_flags_horizontal = 3
+script = ExtResource("1_3cl22")
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 32
+text = "Nazwa jednostki"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+color = Color(0.231373, 0.231373, 0.231373, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer4/VBoxContainer"]
+layout_mode = 2
+
+[node name="Health" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 23
+text = "Health:"
+
+[node name="HealthValue" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 23
+text = "0"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer4/VBoxContainer"]
+layout_mode = 2
+
+[node name="Attack" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 23
+text = "Attack:
+"
+
+[node name="AttackValue" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 23
+text = "0"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer4/VBoxContainer"]
+layout_mode = 2
+
+[node name="Defend" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 23
+text = "Defend:"
+
+[node name="DefndValue" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 23
+text = "0"
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer4/VBoxContainer"]
+layout_mode = 2
+
+[node name="Move" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 23
+text = "Move:"
+
+[node name="MovePoints" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 23
+text = "0"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer4/VBoxContainer"]
+layout_mode = 2
+
+[node name="Cost" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 23
+text = "Cost:"
+
+[node name="CostValue" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 23
+text = "0"
+
+[node name="TextureRect" type="TextureRect" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("2_5lgne")
+expand_mode = 3
+
+[node name="Opis" type="Label" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 23
+text = "Opis jednostki"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Rekrutuj"
+
+[connection signal="CreateJendostka" from="." to="." method="_on_create_jendostka"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

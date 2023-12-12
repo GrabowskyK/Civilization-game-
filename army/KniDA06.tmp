@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://e1gy3y60b3pm"]
+
+[ext_resource type="Script" path="res://army/Knight.gd" id="1_tlqr1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wiecq"]
+size = Vector2(64, 64)
+
+[node name="KnightArea" type="Area2D"]
+script = ExtResource("1_tlqr1")
+
+[node name="Texture" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_wiecq")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

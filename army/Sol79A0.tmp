@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://b8qc6cai74aos"]
+
+[ext_resource type="Script" path="res://army/SoliderScript.gd" id="1_38tqx"]
+[ext_resource type="Texture2D" uid="uid://dbrir873rpdic" path="res://army/a.png" id="2_c3aor"]
+[ext_resource type="Script" path="res://army/Sprite2DScript.gd" id="3_rj6ty"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cthdt"]
+size = Vector2(110, 151)
+
+[node name="SoliderArea" type="Area2D"]
+script = ExtResource("1_38tqx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(57, 78)
+texture = ExtResource("2_c3aor")
+script = ExtResource("3_rj6ty")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(57, 78.5)
+shape = SubResource("RectangleShape2D_cthdt")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]

@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0mgptdaoycdv"]
+
+[ext_resource type="Texture2D" uid="uid://da1binfy5sl3i" path="res://menu/menu.png" id="1_s7081"]
+
+[node name="Menu" type="Node"]
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_s7081")
+
+[node name="NewGame" type="Button" parent="."]
+offset_left = 1195.0
+offset_top = 184.0
+offset_right = 1495.0
+offset_bottom = 284.0
+theme_override_font_sizes/font_size = 40
+text = "New Game"
+
+[node name="LoadGame" type="Button" parent="."]
+offset_left = 1194.0
+offset_top = 303.0
+offset_right = 1494.0
+offset_bottom = 403.0
+theme_override_font_sizes/font_size = 40
+text = "Load game"
+
+[node name="Credits" type="Button" parent="."]
+offset_left = 1195.0
+offset_top = 420.0
+offset_right = 1495.0
+offset_bottom = 520.0
+theme_override_font_sizes/font_size = 40
+text = "Credits"
+
+[node name="Quit" type="Button" parent="."]
+offset_left = 1195.0
+offset_top = 537.0
+offset_right = 1495.0
+offset_bottom = 637.0
+theme_override_font_sizes/font_size = 40
+text = "Quit"

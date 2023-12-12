@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "hi4Xy5L04qc7U7j/XQq15gz3LkEljGLwSll/dzeez+3jPB1wgP3mFuSnoqZBkcE3jSGUarCdo4IpJ002KTmYQw==",
+  "success": true,
+  "projectFilePath": "G:\\Gra2D\\kopia\\Civilization.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\grabe\\.nuget\\packages\\godot.sourcegenerators\\4.1.2\\godot.sourcegenerators.4.1.2.nupkg.sha512",
+    "C:\\Users\\grabe\\.nuget\\packages\\godotsharp\\4.1.2\\godotsharp.4.1.2.nupkg.sha512",
+    "C:\\Users\\grabe\\.nuget\\packages\\godotsharpeditor\\4.1.2\\godotsharpeditor.4.1.2.nupkg.sha512"
+  ],
+  "logs": []
+}

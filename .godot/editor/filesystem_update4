@@ -1,0 +1,4 @@
+res://FullGame/Civilization.tscn
+res://army/Knight.gd
+res://MapGame/TileSelectShader.gdshader
+res://MapGame/TileSelectMaterial.material

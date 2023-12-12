@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://t5n4swte65e7"]
+
+[ext_resource type="Script" path="res://FullGame/Civilization.gd" id="1_2jp8o"]
+[ext_resource type="PackedScene" uid="uid://bnhfrimi4x8vb" path="res://Castle/Castle.tscn" id="2_ledb4"]
+[ext_resource type="PackedScene" uid="uid://ccwobfq8m53gq" path="res://MapGame/mapa.tscn" id="3_0o4qs"]
+[ext_resource type="PackedScene" uid="uid://bayv8ioqsnh2e" path="res://camera_2d.tscn" id="4_pjtdy"]
+[ext_resource type="Script" path="res://FullGame/PopupMenu.gd" id="5_y4bkp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_cqwym"]
+font_size = 28
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 0
+shadow_color = Color(1, 0, 0, 0)
+
+[node name="Civilization" type="Node2D"]
+script = ExtResource("1_2jp8o")
+
+[node name="TileMap" parent="." instance=ExtResource("3_0o4qs")]
+layer_1/tile_data = PackedInt32Array(-131073, 131074, 1, -196612, 131074, 1, -5, 131074, 1, 65537, 2, 1, -65536, 2, 2, -131070, 2, 1, 131071, 2, 2, 0, 196610, 1, 1, 2, 2, -65534, 2, 2, -65535, 2, 2, 2, 2, 2, 3, 2, 2, -65533, 2, 2, -131069, 2, 2, 262142, 65538, 1, 196610, 65538, 1, 131075, 65538, 1, 196612, 65538, 1, 196613, 65538, 1)
+
+[node name="Castle" parent="." instance=ExtResource("2_ledb4")]
+visible = false
+
+[node name="LabelSelectCastle" type="Label" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -103.0
+offset_top = 133.0
+offset_right = 263.0
+offset_bottom = 217.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(517.5, 36)
+text = "Wybierz pole na którym stowrzysz pierwszy zamek!"
+label_settings = SubResource("LabelSettings_cqwym")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Camera2D" parent="." instance=ExtResource("4_pjtdy")]
+anchor_mode = 1
+
+[node name="PopupMenuTest" type="PopupMenu" parent="."]
+mode = 1
+visible = true
+script = ExtResource("5_y4bkp")
+
+[connection signal="SetCameraInCastle" from="Castle" to="." method="_on_castle_set_camera_in_castle"]
