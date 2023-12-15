@@ -94,11 +94,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "G:\\Gra2D\\kopia\\Civilization.csproj",
+      "projectUniqueName": "G:\\Gra2D\\kopia\\CivClonTest\\Civilization.csproj",
       "projectName": "Civilization",
-      "projectPath": "G:\\Gra2D\\kopia\\Civilization.csproj",
+      "projectPath": "G:\\Gra2D\\kopia\\CivClonTest\\Civilization.csproj",
       "packagesPath": "C:\\Users\\grabe\\.nuget\\packages\\",
-      "outputPath": "G:\\Gra2D\\kopia\\.godot\\mono\\temp\\obj\\",
+      "outputPath": "G:\\Gra2D\\kopia\\CivClonTest\\.godot\\mono\\temp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

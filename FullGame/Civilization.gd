@@ -89,6 +89,7 @@ func _on_knight_create_castle() -> void:
 	var castle_node = castle_scene.instantiate()
 	castle_node.position = castlePosition
 	castle_node.castleName = randomCastleName()
+	print(castle_node.castleName)
 	add_child(castle_node)
 	camera.input_vector = castlePosition
 	console.text += "Stworzono zamek \n"
@@ -119,9 +120,7 @@ func randomCastleName() -> String: #Tutaj może wyrzucać bład
 	if exampleCities.size() > 0:
 		var randomNumber = randi() % exampleCities.size()
 		var randomName = exampleCities[randomNumber]
-		print(exampleCities[randomNumber])
 		exampleCities.pop_at(randomNumber)
-		print(exampleCities[randomNumber])
 		return randomName
 	else:
 		return "nazwa"
