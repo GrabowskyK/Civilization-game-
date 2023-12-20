@@ -23,6 +23,3 @@ func _ready() -> void:
 	self.add_item("Exit", PopupIds.exit)
 
 
-
-
-

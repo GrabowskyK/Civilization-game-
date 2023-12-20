@@ -3,7 +3,6 @@ extends Node2D
 @onready var map = $"../TileMap"
 var astargrid : AStarGrid2D
 var current_id_path: Array[Vector2i]
-var current_id_pathv2: Array[Vector2i]
 var target: Vector2
 var is_moving: bool
 var current_point_path: PackedVector2Array

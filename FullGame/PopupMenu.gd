@@ -25,6 +25,7 @@ func _on_id_pressed(id: int) -> void:
 		PopupIds.create_knight:
 			emit_signal("createKnightFrompopup")
 		PopupIds.exit:
+			self.hide()
 			print("Exit")
 	pass # Replace with function body.
 

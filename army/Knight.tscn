@@ -15,7 +15,6 @@ script = ExtResource("1_tlqr1")
 shape = SubResource("RectangleShape2D_wiecq")
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
-visible = true
 script = ExtResource("2_o7qa1")
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
