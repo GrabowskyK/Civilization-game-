@@ -14,6 +14,10 @@ config/name="Civilization"
 config/features=PackedStringArray("4.1", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GlobalVariables="*res://GlobalVariables.gd"
+
 [display]
 
 window/size/viewport_width=1600

@@ -1,9 +1,10 @@
-res://Player
 res://
+res://menu
+res://FightAnimation
+res://Castle/Control
+res://Player
 res://TypeArmy/Medival
 res://army
-res://Castle/Control
 res://Castle
 res://MapGame
-res://menu
 res://map

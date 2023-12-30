@@ -10,7 +10,7 @@ var attack : int = 1
 var defense : int = 1
 var movePoints : int = 1
 var texture_ = preload("res://army/farner.png")
-var player = "Gracz A"
+var player 
 
 var isSelected = false
 var mouseEntered = false
@@ -27,6 +27,10 @@ var movement = 10
 
 
 signal GetLocalTileMap
+signal CreateCastle
+signal CreateFarm
+signal DeleteLine
+signal SelectNodeToCreatePath(knightNode)
 
 func setStats(Attack, Defense, MovePoints, Player):
 	attack = Attack
@@ -35,6 +39,7 @@ func setStats(Attack, Defense, MovePoints, Player):
 	player = Player
 
 func _ready():
+	print(player)
 	textureKnight.texture = texture_
 	astargrid = AStarGrid2D.new()
 	astargrid.region = map.get_used_rect()
@@ -52,66 +57,64 @@ func _ready():
 
 			if(tile_data == null or tile_data.get_custom_data("walkable") == false):
 				astargrid.set_point_solid(tile_position)
-	# Utwórz wojownika z domyślnymi wartościami ataku=1, obrony=1
 	
 
 func _process(delta: float) -> void:
 	pass
 	
 var id_path
-signal SelectNodeToCreatePath(knightNode)
+
 func _input(event: InputEvent) -> void:
-	if(mouseEntered == true and event.is_action_pressed("click") and !rememberPoints.is_empty()):
-		emit_signal("SelectNodeToCreatePath",self)
-		isSelected = true
-		current_point_path = rememberPoints.duplicate()
-		
-	if(event.is_action_pressed("right_click") and mouseEntered == true):
-		emit_signal("SelectNodeToCreatePath",self)
-		current_point_path.clear()
-		rememberPoints.clear()
-		emit_signal("GetLocalTileMap")
-		popupMenu.popup(Rect2i(get_window().get_mouse_position().x,get_window().get_mouse_position().y,100,100))
-		makeMove = false
-	elif event.is_action_pressed("right_click") and mouseEntered == false:
-		isSelected = false
-		is_moving = false
-		makeMove = false
-		if !current_point_path.is_empty():
-			rememberPoints = current_point_path.duplicate()
-		print(self)
-		current_point_path.clear()
-		print(self)
-		
-	if event.is_action_pressed("aLeft"):
-		movement = 10
-		makeMove = false
-		isSelected = false
-		
-	if event is InputEventMouseButton and event.double_click and isSelected:
-		makeMove = true
-		
-	if event is InputEventMouse and isSelected == true and makeMove == false and rememberPoints.is_empty():
-		
-		if is_moving:
-			id_path = astargrid.get_id_path(
-				map.local_to_map(global_position),
-				map.local_to_map(get_global_mouse_position())			
-			)
-		else:
-			id_path = astargrid.get_id_path(
-				map.local_to_map(global_position),
-				map.local_to_map(get_global_mouse_position())			
-			)
-		
-		if id_path.is_empty() == false:
-			current_id_path = id_path
-		current_point_path = astargrid.get_point_path(
-				map.local_to_map(global_position),
-				map.local_to_map(get_global_mouse_position())
-			)
-		for i in current_point_path.size():
-			current_point_path[i] = current_point_path[i] + Vector2(32,32)
+	if player == get_parent().currentPlayer:
+		if(mouseEntered == true and event.is_action_pressed("click") and !rememberPoints.is_empty()):
+			emit_signal("SelectNodeToCreatePath",self)
+			isSelected = true
+			current_point_path = rememberPoints.duplicate()
+			
+		if(event.is_action_pressed("right_click") and mouseEntered == true):
+			emit_signal("SelectNodeToCreatePath",self)
+			current_point_path.clear()
+			rememberPoints.clear()
+			emit_signal("GetLocalTileMap")
+			popupMenu.popup(Rect2i(get_window().get_mouse_position().x,get_window().get_mouse_position().y,100,100))
+			makeMove = false
+		elif event.is_action_pressed("right_click") and mouseEntered == false:
+			isSelected = false
+			is_moving = false
+			makeMove = false
+			if !current_point_path.is_empty():
+				rememberPoints = current_point_path.duplicate()
+			current_point_path.clear()
+			
+		if event.is_action_pressed("aLeft"):
+			movement = 10
+			makeMove = false
+			isSelected = false
+			
+		if event is InputEventMouseButton and event.double_click and isSelected:
+			makeMove = true
+			
+		if event is InputEventMouse and isSelected == true and makeMove == false and rememberPoints.is_empty():
+			
+			if is_moving:
+				id_path = astargrid.get_id_path(
+					map.local_to_map(global_position),
+					map.local_to_map(get_global_mouse_position())			
+				)
+			else:
+				id_path = astargrid.get_id_path(
+					map.local_to_map(global_position),
+					map.local_to_map(get_global_mouse_position())			
+				)
+			
+			if id_path.is_empty() == false:
+				current_id_path = id_path
+			current_point_path = astargrid.get_point_path(
+					map.local_to_map(global_position),
+					map.local_to_map(get_global_mouse_position())
+				)
+			for i in current_point_path.size():
+				current_point_path[i] = current_point_path[i] + Vector2(32,32)
 
 func _on_mouse_entered() -> void:
 	mouseEntered = true
@@ -136,8 +139,7 @@ func _on_area_entered(area: Area2D) -> void:
 	pass # Replace with function body.
 
 
-signal CreateCastle
-signal CreateFarm
+
 func _on_popup_menu_id_pressed(id: int) -> void:
 	match id:
 		popupMenu.PopupIds.move:
@@ -154,7 +156,7 @@ func _on_popup_menu_id_pressed(id: int) -> void:
 			print("Exit")
 	pass # Replace with function body.
 	
-signal DeleteLine
+
 func _physics_process(delta: float) -> void:
 	if current_id_path.is_empty():
 		makeMove = false

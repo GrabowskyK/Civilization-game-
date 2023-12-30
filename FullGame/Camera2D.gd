@@ -9,6 +9,7 @@ var limitCamera
 var marginCamera #Aby kamera nie jechała za daleko
 var moveable : bool = true #Kiedy chce aby kamera była lub nie była w stanie się poruszać
 var viewCameraSize
+
 func _ready(): 
 	var cell_size = 64 #Gdy mapa bedzie wieksza to sie zmieni wartość w rodzicu
 	var numberOfTiles = tilemap.get_used_rect().size
@@ -47,10 +48,11 @@ func _process(delta: float) -> void:
 		label.text = str(position)
 
 func _input(event: InputEvent) -> void:
-	if Input.is_action_pressed("MouseWheelUP"):
-		self.zoom = Vector2(self.zoom.x+0.5,self.zoom.y+0.5)
-	if Input.is_action_pressed("MouseWheelDown"):
-		self.zoom = Vector2(self.zoom.x-0.5,self.zoom.y-0.5)
+	if game.lockZooming == true:
+		if Input.is_action_pressed("MouseWheelUP"):
+			self.zoom = Vector2(self.zoom.x+0.5,self.zoom.y+0.5)
+		if Input.is_action_pressed("MouseWheelDown"):
+			self.zoom = Vector2(self.zoom.x-0.5,self.zoom.y-0.5)
 
 
 

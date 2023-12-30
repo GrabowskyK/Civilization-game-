@@ -1,0 +1,167 @@
+[gd_scene load_steps=9 format=3 uid="uid://t5n4swte65e7"]
+
+[ext_resource type="Script" path="res://FullGame/Civilization.gd" id="1_2jp8o"]
+[ext_resource type="PackedScene" uid="uid://ccwobfq8m53gq" path="res://MapGame/mapa.tscn" id="3_0o4qs"]
+[ext_resource type="PackedScene" uid="uid://bnhfrimi4x8vb" path="res://Castle/Castle.tscn" id="4_2sghg"]
+[ext_resource type="PackedScene" uid="uid://bayv8ioqsnh2e" path="res://camera_2d.tscn" id="4_pjtdy"]
+[ext_resource type="PackedScene" uid="uid://e1gy3y60b3pm" path="res://army/Knight.tscn" id="6_5rdu6"]
+[ext_resource type="Script" path="res://FullGame/PathScript.gd" id="6_lh4wr"]
+[ext_resource type="Script" path="res://Player/PlayerVariables.gd" id="8_htjaf"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_cqwym"]
+font_size = 28
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 0
+shadow_color = Color(1, 0, 0, 0)
+
+[node name="Civilization" type="Node2D"]
+script = ExtResource("1_2jp8o")
+
+[node name="TileMap" parent="." instance=ExtResource("3_0o4qs")]
+layer_1/tile_data = PackedInt32Array(-131073, 131074, 1, -196612, 131074, 1, -5, 131074, 1, 65537, 2, 1, -65536, 2, 2, -131070, 2, 1, 131071, 2, 2, 0, 196610, 1, 1, 2, 2, -65534, 2, 2, -65535, 2, 2, 2, 2, 2, 3, 2, 2, -65533, 2, 2, -131069, 2, 2, 262142, 65538, 1, 196610, 65538, 1, 131075, 65538, 1, 196612, 65538, 1, 196613, 65538, 1)
+layer_2/tile_data = PackedInt32Array(262140, 65538, 2, 131068, 65538, 2, 131066, 65538, 2, 262138, 65538, 2, 131064, 131074, 2, 262136, 131074, 2)
+
+[node name="LabelSelectCastle" type="Label" parent="."]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -103.0
+offset_top = 133.0
+offset_right = 263.0
+offset_bottom = 217.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(517.5, 36)
+text = "Wybierz pole na którym stowrzysz pierwszy zamek!"
+label_settings = SubResource("LabelSettings_cqwym")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Knight2" parent="." instance=ExtResource("6_5rdu6")]
+modulate = Color(0.92549, 0.4, 0, 1)
+position = Vector2(-96, -96)
+
+[node name="Camera2D" parent="." instance=ExtResource("4_pjtdy")]
+anchor_mode = 1
+
+[node name="CastleArea" parent="." instance=ExtResource("4_2sghg")]
+position = Vector2(96, 96)
+
+[node name="Console" type="CanvasLayer" parent="."]
+
+[node name="New turn" type="Button" parent="Console"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -90.0
+offset_bottom = 31.0
+grow_horizontal = 0
+text = "Nowa tura"
+
+[node name="Label" type="Label" parent="Console/New turn"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -64.0
+offset_top = 31.0
+offset_right = -18.0
+offset_bottom = 57.0
+grow_horizontal = 0
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="Console"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1181.0
+offset_top = 687.0
+offset_right = -19.0
+offset_bottom = -13.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0823529, 0.0823529, 0.0823529, 0.576471)
+
+[node name="Text" type="Label" parent="Console"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -419.0
+offset_top = -213.0
+offset_right = -19.0
+offset_bottom = -13.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 17
+vertical_alignment = 2
+autowrap_mode = 2
+max_lines_visible = 6
+text_direction = 2
+
+[node name="foodLabel" type="Label" parent="Console"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -183.0
+offset_right = -140.0
+offset_bottom = 26.0
+grow_horizontal = 0
+text = "Food:
+"
+
+[node name="food" type="Label" parent="Console"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -140.0
+offset_right = -100.0
+offset_bottom = 23.0
+grow_horizontal = 0
+text = "0
+"
+
+[node name="goldLabel" type="Label" parent="Console"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -183.0
+offset_top = 26.0
+offset_right = -142.0
+offset_bottom = 52.0
+grow_horizontal = 0
+text = "Gold:"
+
+[node name="gold" type="Label" parent="Console"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -140.0
+offset_top = 26.0
+offset_right = -100.0
+offset_bottom = 52.0
+grow_horizontal = 0
+text = "0"
+
+[node name="Path" type="Node2D" parent="."]
+script = ExtResource("6_lh4wr")
+metadata/player = NodePath("")
+
+[node name="PlayerVariables" type="Node2D" parent="."]
+script = ExtResource("8_htjaf")
+
+[connection signal="CreateCastle" from="Knight2" to="." method="_on_knight_create_castle"]
+[connection signal="CreateFarm" from="Knight2" to="." method="_on_knight_2_create_farm"]
+[connection signal="DeleteLine" from="Knight2" to="Path" method="_on_knight_delete_line"]
+[connection signal="GetLocalTileMap" from="Knight2" to="TileMap" method="_on_knight_get_local_tile_map"]
+[connection signal="SelectNodeToCreatePath" from="Knight2" to="." method="_on_knight_select_node_to_create_path"]
+[connection signal="area_entered" from="Knight2" to="Knight2" method="_on_area_entered"]
+[connection signal="pressed" from="Console/New turn" to="." method="_RefreshVariableOnTurn"]

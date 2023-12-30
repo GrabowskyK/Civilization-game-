@@ -1,0 +1,66 @@
+[gd_scene load_steps=4 format=3 uid="uid://se6tda68sj6w"]
+
+[ext_resource type="Script" path="res://FightAnimation/canvas_layer.gd" id="1_fykel"]
+[ext_resource type="Script" path="res://FightAnimation/FightAnimation.gd" id="2_a22fo"]
+[ext_resource type="Texture2D" uid="uid://h1p3cx06v66p" path="res://TypeArmy/Medival/assasin.png" id="3_40w60"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource("1_fykel")
+
+[node name="Control2" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_a22fo")
+
+[node name="ColorRect" type="ColorRect" parent="Control2"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_top = 107.0
+offset_right = 800.0
+offset_bottom = -107.0
+grow_vertical = 2
+color = Color(0, 0.643137, 0.647059, 1)
+
+[node name="TextureRect" type="TextureRect" parent="Control2/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 130.0
+offset_top = 114.0
+offset_right = -149.0
+offset_bottom = -114.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_40w60")
+
+[node name="ColorRect2" type="ColorRect" parent="Control2"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -800.0
+offset_top = -343.0
+offset_bottom = 343.0
+grow_horizontal = 0
+grow_vertical = 2
+color = Color(0.419608, 0.301961, 0.337255, 1)
+
+[node name="TextureRect2" type="TextureRect" parent="Control2/ColorRect2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 130.0
+offset_top = 114.0
+offset_right = -149.0
+offset_bottom = -114.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_40w60")
+flip_h = true

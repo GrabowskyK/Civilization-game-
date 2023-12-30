@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgu1d0ar5pqp8"]
+
+[ext_resource type="Texture2D" uid="uid://cmqawf6evsdgl" path="res://menu/flags/ag.png" id="1_6ds3t"]
+[ext_resource type="Script" path="res://menu/FlagInGrid.gd" id="1_suf16"]
+
+[node name="flag" type="TextureRect"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_6ds3t")
+script = ExtResource("1_suf16")
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]

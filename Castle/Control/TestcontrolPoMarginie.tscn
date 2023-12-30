@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://l0xqyqjhees4"]
+[gd_scene load_steps=4 format=3 uid="uid://l0xqyqjhees4"]
 
 [ext_resource type="Script" path="res://Castle/Control/Testcontrol.gd" id="1_ss3e8"]
 [ext_resource type="Script" path="res://Castle/Control/GridContainer.gd" id="2_ns6tj"]
+[ext_resource type="Script" path="res://Castle/Control/BuildingsContainer.gd" id="3_sc2pw"]
 
 [node name="Control" type="Control"]
 visibility_layer = 2
@@ -24,6 +25,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -842.0
+offset_top = -473.5
+offset_right = 842.0
+offset_bottom = 473.5
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -115,11 +120,11 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/Box/VBoxContainer/HBoxContainer"]
+[node name="Buildings" type="ScrollContainer" parent="PanelContainer/Box/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1250, 750)
 layout_mode = 2
 
-[node name="MarginContainer2" type="MarginContainer" parent="PanelContainer/Box/VBoxContainer/HBoxContainer/ScrollContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="PanelContainer/Box/VBoxContainer/HBoxContainer/Buildings"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 15
@@ -127,7 +132,24 @@ theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 0
 
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/Box/VBoxContainer/HBoxContainer/ScrollContainer/MarginContainer2"]
+[node name="Buildings" type="VBoxContainer" parent="PanelContainer/Box/VBoxContainer/HBoxContainer/Buildings/MarginContainer2"]
+layout_mode = 2
+script = ExtResource("3_sc2pw")
+
+[node name="Army" type="ScrollContainer" parent="PanelContainer/Box/VBoxContainer/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(1250, 750)
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="PanelContainer/Box/VBoxContainer/HBoxContainer/Army"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 0
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/Box/VBoxContainer/HBoxContainer/Army/MarginContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/h_separation = 50
@@ -139,17 +161,13 @@ script = ExtResource("2_ns6tj")
 layout_mode = 2
 size_flags_horizontal = 10
 
-[node name="Button3" type="Button" parent="PanelContainer/Box/VBoxContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Button3"
-
-[node name="Button" type="Button" parent="PanelContainer/Box/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="ArmyButton" type="Button" parent="PanelContainer/Box/VBoxContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(350, 150)
 layout_mode = 2
 theme_override_font_sizes/font_size = 42
 text = "Army"
 
-[node name="Button2" type="Button" parent="PanelContainer/Box/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="BuildingButton" type="Button" parent="PanelContainer/Box/VBoxContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(350, 150)
 layout_mode = 2
 theme_override_font_sizes/font_size = 42
@@ -164,4 +182,8 @@ offset_bottom = -433.0
 theme_override_font_sizes/font_size = 34
 text = "X"
 
+[connection signal="UpdatePlayerStats" from="PanelContainer/Box/VBoxContainer/HBoxContainer/Buildings/MarginContainer2/Buildings" to="." method="_on_buildings_update_player_stats"]
+[connection signal="CreateKnightFromCastle" from="PanelContainer/Box/VBoxContainer/HBoxContainer/Army/MarginContainer2/GridContainer" to="." method="_on_grid_container_create_knight_from_castle"]
+[connection signal="pressed" from="PanelContainer/Box/VBoxContainer/HBoxContainer/VBoxContainer/ArmyButton" to="." method="_on_army_button_pressed"]
+[connection signal="pressed" from="PanelContainer/Box/VBoxContainer/HBoxContainer/VBoxContainer/BuildingButton" to="." method="_on_building_button_pressed"]
 [connection signal="pressed" from="Close" to="." method="_on_close_pressed"]

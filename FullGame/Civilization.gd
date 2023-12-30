@@ -3,12 +3,15 @@ extends Node2D
 @onready var camera = $Camera2D
 @onready var map = $TileMap
 @onready var labelSelectCastle = $LabelSelectCastle
-@onready var popupMenu = $PopupMenuTest
 @onready var knight = $Knight2
 @onready var console = $Console/Text
 @onready var path = $Path
 @onready var currentPlayer = $PlayerVariables
-@onready var turnButton = $"Console/New turn/Label"
+@onready var turnButton = $Console/UI/MarginContainer/VBoxContainer/Day
+
+var playerVariablePath = ""
+#var players : Array = [ PlayerClass.new(), PlayerClass.new(), PlayerClass.new()]
+var players : Array = []
 
 #Granica mapy
 var map_min = -20 * 64
@@ -16,6 +19,7 @@ var map_max = 20 * 64
 
 var castle_scene_path = "res://Castle/Castle.tscn"
 var knightScenePath = "res://army/Knight.tscn"
+var unitScenePath = "res://TypeArmy/SingleCharacter.tscn"
 var tileSize = 64
 var input_vector = Vector2()
 var windowSize
@@ -30,89 +34,118 @@ var current_point_path: PackedVector2Array
 var movement = 100
 var make = false
 var optionMove = false
+var lockZooming = true #Do blokowania oddalania/przybliżania kamery gdy potrzeba (np. panele)
 
-
+@onready var delete = $Knight3
 func _ready() -> void:
-	map.createCastle.connect(_create_castle)
+	for i in range(0,GlobalVariables.flags.size(),1):
+			var newPlayer = PlayerClass.new()
+			newPlayer.playerFlag = GlobalVariables.flags[i]
+			newPlayer.playerName = GlobalVariables.names[i]
+			players.append(newPlayer)
+	StartGame()
+	setCurrentPlayerNextPlayer(players[0])
+	var result = currentPlayer
+	knight.player = currentPlayer
 	windowSize = self.get_viewport_rect()
 	RefreshTheHUD()
 	pass # Replace with function body.
 
+func StartGame():
+	var jednostkaPath = load("res://TypeArmy/SingleCharacter.tscn")
+	var castle_scene = load("res://Castle/Castle.tscn")
+	var sizeMap = map.get_used_rect()
+	var castlePosition : Vector2 = Vector2(0,0)
+	var ArrayPosition : Array = [Vector2(-1,-1),Vector2(1,-1),Vector2(-1,1),Vector2(1,1)]
+	for i in range(0,players.size(),1):
+		castlePosition.x =  ArrayPosition[i].x * sizeMap.size.x/4 * tileSize + tileSize/2
+		castlePosition.y =  ArrayPosition[i].y * sizeMap.size.y/4 * tileSize + tileSize/2
+		var tile_data = map.get_cell_tile_data(0, map.local_to_map(castlePosition))
+		if(tile_data.get_custom_data("walkable") == true):		
+			var castle_node = castle_scene.instantiate()
+			castle_node.position = castlePosition
+			castle_node.castleName = randomCastleName()
+			castle_node.player = players[i]
+			add_child(castle_node)
+			castle_node.connect("CreateJednostka_v3",_CreateJednostkaFromCastle)
+			#camera.input_vector = castlePosition
+			players[i].castleFields.push_back(castle_node)
+			#map.set_cell(4,castlePosition,2,Vector2i(0,7))
+			players[i].castles.append(castle_node)
+		else:
+			#Ta funkcja jest źle zrobiona ale nie chce tracic czasu
+			var k = 1
+			while(tile_data.get_custom_data("walkable") == false):
+				castlePosition.x = (sizeMap.size.x/4 * (tileSize + k) + tileSize/2) 
+				castlePosition.y = (sizeMap.size.y/4 * (tileSize + k) + tileSize/2)
+				k += 1
+		var jednostkaNode = jednostkaPath.instantiate()
+		jednostkaNode.connect("GetLocalTileMap",map._on_knight_get_local_tile_map)
+		jednostkaNode.connect("DeleteLine",path._on_knight_delete_line)
+		jednostkaNode.connect("SelectNodeToCreatePath",_on_knight_select_node_to_create_path)
+		jednostkaNode.connect("CreateFarm",_on_knight_2_create_farm)
+		jednostkaNode.connect("CreateCastle",_on_knight_create_castle)
+		jednostkaNode.Create(Farmer.new(), players[i])
+		jednostkaNode.add_to_group("Units")
+		var unitPosition : Vector2 = Vector2(0,0)
+		unitPosition.x =  castlePosition.x + (tileSize * 2)
+		unitPosition.y =  castlePosition.y
+		jednostkaNode.position = unitPosition
+		add_child(jednostkaNode)
+		players[i].units.append(jednostkaNode)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 func _input(event: InputEvent) -> void:
 	mousePosition = get_local_mouse_position()
-	if event is InputEventMouse and event.is_pressed() and event.button_index == MOUSE_BUTTON_RIGHT:
-		#popupMenu.popup(Rect2i(get_window().get_mouse_position().x,get_window().get_mouse_position().y+300,100,100))
-		pass
 
-func _create_castle(vector2):
-	vector2.x = vector2.x * tileSize + tileSize/2
-	vector2.y = vector2.y * tileSize + tileSize/2
-	var castle_scene = load(castle_scene_path)
-	var castle_node = castle_scene.instantiate()
-	castle_node.position = vector2
-	add_child(castle_node)
-	#camera.position = castle_node.position
-	labelSelectCastle.queue_free()
-	pass
-#
-
-
-func _on_castle_set_camera_in_castle(value1) -> void:
-	camera.input_vector = value1
-	pass # Replace with function body.
-
-func _on_popup_menu_test_create_castle_frompopup() -> void: #Tworzenie zamku
-#	var castlePosition : Vector2 = Vector2(0,0)
-#	castlePosition.x =  map.localTile.x * tileSize + tileSize/2
-#	castlePosition.y =  map.localTile.y * tileSize + tileSize/2
-#	var castle_scene = load(castle_scene_path)
-#	var castle_node = castle_scene.instantiate()
-#	castle_node.position = castlePosition
-#	add_child(castle_node)
-#	camera.input_vector = castlePosition
-#	console.text += "Stworzono zamek \n"
-	pass # Replace with function body.
-
-func _on_popup_menu_test_create_knight_frompopup() -> void:
-	var knightPosition : Vector2 = Vector2(0,0)
-	knightPosition.x =  map.localTile.x * tileSize + tileSize/2
-	knightPosition.y =  map.localTile.y * tileSize + tileSize/2
-	var knightScene = load(knightScenePath)
-	var knightNode = knightScene.instantiate()
-	knightNode.position = knightPosition
-	knightNode.setStats(10,10,10, "Gracz B")
-	add_child(knightNode)
-	knightNode.connect("SelectNodeToCreatePath",_on_knight_select_node_to_create_path)
-	knightNode.connect("GetLocalTileMap",map._on_knight_get_local_tile_map)
-	knightNode.connect("DeleteLine",path._on_knight_delete_line)
-	knightNode.connect("CreateCastle",_on_knight_create_castle)
-	camera.input_vector = knightPosition
-	console.text += knightNode.player + " stworzył rycerza \n"
-	pass # Replace with function body.
 
 func _on_knight_create_castle() -> void:
+	var newCastlePosition : Vector2 = Vector2(0,0)
+	newCastlePosition.x =  map.localTile.x * tileSize + tileSize/2
+	newCastlePosition.y =  map.localTile.y * tileSize + tileSize/2
+	for castle in currentPlayer.castleFields:
+		var castle_position: Vector2 = castle.position
+		var distance: float = floor(castle_position.distance_to(newCastlePosition))
+		if (distance == 202 or distance == 230 or distance == 271) or distance <= 192 :
+			print("Zamek nie może stać zbyt blisko innego 7x7")
+			return
 	if map.get_cell_alternative_tile(2,map.localTile) != 0 and map.get_cell_alternative_tile(4,map.localTile) != 0:
-		var castlePosition : Vector2 = Vector2(0,0)
-		castlePosition.x =  map.localTile.x * tileSize + tileSize/2
-		castlePosition.y =  map.localTile.y * tileSize + tileSize/2
 		var castle_scene = load(castle_scene_path)
 		var castle_node = castle_scene.instantiate()
-		castle_node.position = castlePosition
+		castle_node.position = newCastlePosition
 		castle_node.castleName = randomCastleName()
-		print(castle_node.castleName)
+		castle_node.player = currentPlayer
 		add_child(castle_node)
-		camera.input_vector = castlePosition
-		console.text += "Stworzono zamek \n"
+		castle_node.connect("CreateJednostka_v3",_CreateJednostkaFromCastle)
+		camera.input_vector = newCastlePosition
+		#console.text += "Stworzono zamek \n"
 		currentPlayer.castleFields.push_back(castle_node)
 		map.set_cell(4,map.localTile,2,Vector2i(0,7))
+		currentPlayer.castles.append(castle_node)
 	else:
 		console.text += "Nie można utworzyć tutaj zamku"
-	pass # Replace with function body.
+	return
 
+func _CreateJednostkaFromCastle(jednostka, positionToSetUnit):
+	var jednostkaPath = preload("res://TypeArmy/SingleCharacter.tscn")
+	var jednostkaNode = jednostkaPath.instantiate()
+	jednostkaNode.connect("GetLocalTileMap",map._on_knight_get_local_tile_map)
+	jednostkaNode.connect("DeleteLine",path._on_knight_delete_line)
+	jednostkaNode.connect("SelectNodeToCreatePath",_on_knight_select_node_to_create_path)
+	jednostkaNode.connect("CreateFarm",_on_knight_2_create_farm)
+	jednostkaNode.connect("CreateCastle",_on_knight_create_castle)
+	jednostkaNode.Create(jednostka, currentPlayer)
+	jednostkaNode.add_to_group("Units")
+	var unitPosition : Vector2 = Vector2(0,0)
+	unitPosition.x =  positionToSetUnit.x + tileSize
+	unitPosition.y =  positionToSetUnit.y + tileSize
+	jednostkaNode.position = unitPosition
+	add_child(jednostkaNode)
+	currentPlayer.units.append(jednostkaNode)
+	pass
+	
+	
 
 var exampleCities : Array = [
 	"Katowice",
@@ -142,8 +175,6 @@ func randomCastleName() -> String: #Tutaj może wyrzucać bład
 	else:
 		return "nazwa"
 
-
-
 func _on_knight_select_node_to_create_path(knightNode) -> void:
 	path.player = knightNode
 	pass # Replace with function body.
@@ -162,14 +193,20 @@ func _on_knight_2_create_farm() -> void:
 		console.text += "Nie można utworzyć tutaj farmy"
 	RefreshTheHUD()
 	pass 
-	
+
+var i = 1
 #To dotyczy kiedy nastapi nowa tura
 func _RefreshVariableOnTurn() -> void:
-	turnButton.text = str(turn)
 	RefreshFarmTileOnCurrentPlayer()
 	RefreshCastleFarms()
+	setCurrentPlayerNextPlayer(players[i%players.size()])
 	RefreshTheHUD()
-	turn += 1
+	RefreshUnitMovePoints()
+	if (i%players.size()) == 0:
+		turn += 1
+		turnButton.text = str(turn)
+	i += 1
+	
 	pass
 	
 func RefreshFarmTileOnCurrentPlayer():
@@ -187,6 +224,34 @@ func RefreshCastleFarms():
 		foodTemp += farm.RefreshTheFoodIncome()
 	currentPlayer.food += foodTemp
 
+@onready var foodValue = $Console/UI/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/foodValue
+@onready var goldValue = $Console/UI/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/goldValue
+@onready var playerNameValue = $Console/UI/MarginContainer/VBoxContainer/HBoxContainer3/Label
+@onready var flagValue = $Console/UI/MarginContainer/VBoxContainer/HBoxContainer3/TextureRect
 func RefreshTheHUD():
-	currentPlayer.foodValue.text = str(currentPlayer.food)
-	currentPlayer.goldValue.text = str(currentPlayer.gold)
+	foodValue.text = str(currentPlayer.food)
+	goldValue.text = str(currentPlayer.gold)
+	playerNameValue.text = currentPlayer.playerName
+	flagValue.texture = load(currentPlayer.playerFlag)
+
+func RefreshUnitMovePoints():
+	var nodes_in_group = get_tree().get_nodes_in_group("Units")
+	for node in nodes_in_group:
+		node.movement = node.movePoints
+	
+func setCurrentPlayerNextPlayer(player : PlayerClass):
+	currentPlayer = player
+	currentPlayer.food = player.food
+	currentPlayer.gold = player.gold
+	currentPlayer.playerName = player.playerName
+	currentPlayer.foodFields = player.foodFields
+	currentPlayer.castleFields = player.castleFields
+	currentPlayer.units = player.units
+	currentPlayer.castles = player.castles
+	currentPlayer.additionalAttack = player.additionalAttack
+	currentPlayer.additionalDefense = player.additionalDefense
+	currentPlayer.faith = player.faith
+	currentPlayer.additionalFood = player.additionalFood
+	currentPlayer.additionalGold = player.additionalGold
+	
+

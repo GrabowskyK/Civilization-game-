@@ -127,5 +127,4 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "Rekrutuj"
 
-[connection signal="CreateJendostka" from="." to="." method="_on_create_jendostka"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

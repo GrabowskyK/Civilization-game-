@@ -1,10 +1,9 @@
 res://FullGame/Civilization.tscn
 res://army/Knight.gd
+res://FullGame/Civilization.gd
 res://MapGame/TileSelectShader.gdshader
 res://MapGame/TileSelectMaterial.material
-res://army/Knight.tscn
-res://MapGame/mapa.tscn
+res://menu/menu.tscn
+res://menu/player_crete_game.tscn
+res://TypeArmy/SingleCharacter.tscn
 res://Castle/Castle.tscn
-res://Castle/Castle.gd
-res://Player/PlayerVariables.gd
-res://FullGame/Civilization.gd

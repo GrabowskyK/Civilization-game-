@@ -4,7 +4,7 @@ class_name Assasin
 
 func _init():
 	nameArmy = "Assasin"
-	health = 2
+	health = 20
 	attack = 6
 	defense= 1
 	movePoints = 6

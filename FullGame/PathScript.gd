@@ -7,7 +7,7 @@ func _process(delta):
 	queue_redraw()
 
 func _draw():
-	if player.current_point_path.is_empty():
+	if  player == null or player.current_point_path.is_empty():
 		return
 
 	# Ustaw kolory dla punktów

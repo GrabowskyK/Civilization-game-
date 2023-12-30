@@ -1,0 +1,125 @@
+[gd_scene load_steps=8 format=3 uid="uid://c0mgptdaoycdv"]
+
+[ext_resource type="Script" path="res://menu/CreatePlayers.gd" id="1_wckyb"]
+[ext_resource type="PackedScene" uid="uid://b58g3bsd4e0pe" path="res://menu/player_crete_game.tscn" id="2_pb2o5"]
+[ext_resource type="Script" path="res://menu/GridFlags.gd" id="3_vmg3c"]
+[ext_resource type="Texture2D" uid="uid://dw7fhhsgjcpkf" path="res://menu/flags/ae.png" id="4_d0jb4"]
+[ext_resource type="Texture2D" uid="uid://by1yj8gxjhkny" path="res://menu/flags/bt.png" id="5_818if"]
+[ext_resource type="Texture2D" uid="uid://ro1fovh1oqgg" path="res://menu/flags/bv.png" id="6_l1y31"]
+[ext_resource type="Texture2D" uid="uid://bh1pkmc8ko37o" path="res://menu/flags/bw.png" id="7_jp73l"]
+
+[node name="Menu" type="Node"]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+visible = false
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 431.0
+offset_top = -169.0
+offset_right = -431.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_stretch_ratio = 2.33
+theme_override_constants/separation = 29
+
+[node name="NewGame" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.07
+theme_override_font_sizes/font_size = 40
+text = "New Game"
+
+[node name="LoadGame" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Load game"
+
+[node name="Credits" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Credits"
+
+[node name="Quit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Quit"
+
+[node name="Start" type="Button" parent="."]
+offset_left = 80.0
+offset_top = 829.0
+offset_right = 1520.0
+offset_bottom = 860.0
+size_flags_vertical = 8
+text = "Start"
+
+[node name="CreatePlayers" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -76.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 40
+script = ExtResource("1_wckyb")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CreatePlayers"]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CreatePlayers/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_constants/separation = 10
+
+[node name="PlayerCreteGame" parent="CreatePlayers/ScrollContainer/VBoxContainer2" instance=ExtResource("2_pb2o5")]
+custom_minimum_size = Vector2(0, 0)
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="Button" type="Button" parent="CreatePlayers/ScrollContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 42
+text = "Add new player"
+
+[node name="GridContainer" type="GridContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 4
+script = ExtResource("3_vmg3c")
+
+[node name="TextureRect" type="TextureRect" parent="GridContainer"]
+layout_mode = 2
+texture = ExtResource("4_d0jb4")
+
+[node name="TextureRect2" type="TextureRect" parent="GridContainer"]
+layout_mode = 2
+texture = ExtResource("5_818if")
+
+[node name="TextureRect3" type="TextureRect" parent="GridContainer"]
+layout_mode = 2
+texture = ExtResource("6_l1y31")
+stretch_mode = 2
+
+[node name="TextureRect4" type="TextureRect" parent="GridContainer"]
+layout_mode = 2
+texture = ExtResource("7_jp73l")
+
+[connection signal="pressed" from="CreatePlayers/ScrollContainer/VBoxContainer2/Button" to="CreatePlayers" method="_on_button_pressed"]

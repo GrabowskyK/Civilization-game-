@@ -1,0 +1,37 @@
+extends Node2D # Inherits from the Global Node2D class
+
+class_name TypeBuilding
+var number #Sluzy do tego aby latwo rozpoznac jednostke
+var nameBuilding
+var requiredGold 
+var requiredFood
+#var reuqiredPeople
+var incomeGold
+var incomeFood
+var faith
+var additionalAttack
+var additionalDefense
+var _texture
+var opis
+
+func _init():
+	nameBuilding = ""
+	requiredGold = 0
+	requiredFood = 0
+	_texture = ""
+	opis = ""
+
+func setGoldIncome(gold):
+	incomeGold = gold
+
+func setFoodIncome(food):
+	incomeFood = food
+	
+func setAdditionalAttack(attack):
+	additionalAttack = attack
+
+func setAdditionalDefense(defense):
+	additionalDefense = defense
+	
+func setFaith(faithValue):
+	faith = faithValue

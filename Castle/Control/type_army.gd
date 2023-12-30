@@ -10,16 +10,10 @@ extends VBoxContainer
 @onready var textureValue = $ColorRect/MarginContainer/VBoxContainer/HBoxContainer4/TextureRect
 @onready var nameButton = $Button
 
+var number
 var nameButtonJendostki = nameValue #Sluzy do tego, aby wiedziec ktora jedostka ma zostac stworzona
-signal CreateJendostka(nameJednostki : String)
 
+signal CreateJednostka(jednostkaNumber)
 func _on_button_pressed() -> void:
-	print(nameButtonJendostki)
-	emit_signal("CreateJendostka", nameButtonJendostki) #Tworzenie jednostki
-	pass # Replace with function body.
-
-
-func _on_create_jendostka(nameJednostki) -> void:
-	print(get_parent_control().get_parent_control())
-	print(nameJednostki)
+	emit_signal("CreateJednostka", number)
 	pass # Replace with function body.

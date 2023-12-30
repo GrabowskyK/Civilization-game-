@@ -1,14 +1,14 @@
 extends Area2D
 
 class_name CastleClass
-var player: String
+var player
 var castleName: String = ""
+var health = 100
 var defend = 1
 var attack = 1
 var level = 1
 var builtBuildings: Array = [] #Zbudowane budynki
 var currentInCastle: Array = [] #Jakie jednostki są w zamku
-var food = 1
 var income = 0
 
 #Tutja można dalej rozwijać
@@ -24,37 +24,26 @@ var tile_size = Vector2(64,64)
 var side_length = 2
 signal SetCameraInCastle(value1 : Vector2)
 
-# Called when the node enters the scene tree for the first time.
-
 func _ready() -> void:
-	print(map.get_surrounding_cells(position))
 	control.nameCastle.text = castleName
-	control.foodValue.text = str(food)
 	control.incomeValue.text = str(income)
 	RefreshTheFoodIncome()
 	pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 
 	pass
 
 func _input(event: InputEvent) -> void:
 	mousePosition = get_global_mouse_position()
-	if(event.is_action_pressed("click") and mouseEntered == true):
-		mainNode.camera.input_vector = mousePosition
-		isCastleSelected = true
-		control.visible = true
-	if(event.is_action_pressed("up")):
-		RefreshTheFoodIncome()
-	pass
-
-func _on_castle_menu_set_income() -> void:
-	income = income + 1
-	print("Robi się")
-	pass # Replace with function body.
-
+	if player == mainNode.currentPlayer:
+		if(event.is_action_pressed("click") and mouseEntered == true): #Gdy otworze menu zamku
+			mainNode.camera.input_vector = mousePosition
+			isCastleSelected = true
+			control.visible = true
+			mainNode.camera.zoom = Vector2(1.5,1.5)
+			mainNode.lockZooming = false
+		pass
 
 func _on_mouse_entered() -> void:
 	mouseEntered = true
@@ -79,4 +68,10 @@ func RefreshTheFoodIncome(): #Ma się robić co runde
 			if tile_index != -1:
 				income += 2
 				#print("Znaleziono kafelek na pozycji:", Vector2(x, y), "o indeksie:", tile_index)
+	control.incomeValue.text = str(income)
 	return income
+
+signal CreateJednostka_v3(jednostka_v3, positionToSetUnit)
+func _on_control_create_jednostke_v_2(jednostka) -> void:
+	emit_signal("CreateJednostka_v3",jednostka, self.position)
+	pass # Replace with function body.

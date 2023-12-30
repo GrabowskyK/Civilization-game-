@@ -1,21 +1,68 @@
-[gd_scene load_steps=5 format=3 uid="uid://83lgnn1flh23"]
+[gd_scene load_steps=8 format=3 uid="uid://83lgnn1flh23"]
 
 [ext_resource type="Script" path="res://TypeArmy/SingleCharacter.gd" id="1_o0rrk"]
 [ext_resource type="Texture2D" uid="uid://d01cg128hle2n" path="res://TypeArmy/Medival/archer.png" id="2_a5h3g"]
 [ext_resource type="Script" path="res://army/PopupMenuKnight.gd" id="3_c3g2l"]
+[ext_resource type="Texture2D" uid="uid://cmqawf6evsdgl" path="res://menu/flags/ag.png" id="3_fqtx0"]
+[ext_resource type="Texture2D" uid="uid://nwrj43lngayd" path="res://TypeArmy/11.png" id="4_4jop2"]
+[ext_resource type="Texture2D" uid="uid://cbff52ahou6is" path="res://TypeArmy/12.png" id="5_wnj11"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sn8w4"]
 size = Vector2(60, 60)
 
-[node name="AreaCharacter" type="Area2D"]
+[node name="SingleCharacter" type="Area2D"]
 position = Vector2(32, 32)
 script = ExtResource("1_o0rrk")
 
 [node name="Texture" type="Sprite2D" parent="."]
 texture = ExtResource("2_a5h3g")
 
+[node name="TextureRect" type="TextureRect" parent="Texture"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -65.0
+offset_top = -46.0
+offset_right = -5.0
+offset_bottom = -26.0
+grow_horizontal = 0
+size_flags_horizontal = 4
+texture = ExtResource("3_fqtx0")
+expand_mode = 1
+
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_sn8w4")
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 script = ExtResource("3_c3g2l")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+visible = false
+z_index = 2
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = -30.0
+value = 100.0
+texture_under = ExtResource("4_4jop2")
+texture_progress = ExtResource("5_wnj11")
+
+[node name="healthValue" type="Label" parent="TextureProgressBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.0
+offset_top = -10.0
+offset_right = 27.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 13
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="id_pressed" from="PopupMenu" to="." method="_on_popup_menu_id_pressed"]
