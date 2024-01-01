@@ -8,6 +8,7 @@ func _init():
 	requiredFood = 10
 	_texture = "res://TypeBuilding/BANK.png"
 	opis = "Zapewnia +1 do ataku i obrony dla wszysktich jednostek"
+	timeToBuild = 2
 	self.setAdditionalAttack(1)
 	self.setAdditionalDefense(1)
 

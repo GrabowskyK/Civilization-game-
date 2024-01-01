@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=3 uid="uid://cynn21g4jxjos"]
+
+[ext_resource type="Script" path="res://Castle/Control/ArmyInProgressSingle.gd" id="1_e3o7k"]
+[ext_resource type="Texture2D" uid="uid://h1p3cx06v66p" path="res://TypeArmy/Medival/assasin.png" id="1_so3ns"]
+
+[node name="Army" type="PanelContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 264.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+script = ExtResource("1_e3o7k")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_stretch_ratio = 3.37
+theme_override_constants/separation = 15
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+texture = ExtResource("1_so3ns")
+expand_mode = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="UnitName" type="Label" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 46
+text = "Budynek"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="toBuild" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Time to recruit:"
+
+[node name="days" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "2
+"
+
+[node name="Button" type="Button" parent="HBoxContainer"]
+modulate = Color(1, 0.0431373, 0.0235294, 1)
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.25
+theme_override_font_sizes/font_size = 42
+text = "X"
+
+[connection signal="pressed" from="HBoxContainer/Button" to="." method="_on_button_pressed"]

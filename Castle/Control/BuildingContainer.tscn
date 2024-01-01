@@ -31,42 +31,64 @@ text = "Ratusz I"
 [node name="Opis" type="Label" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 23
-text = "Opis: Zbiory dają dodatkowo +1 do zbioru"
+text = "Zbiory dają dodatkowo +1 do zbioru"
 autowrap_mode = 2
 
-[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer"]
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 23
-text = "Wymagane:
-"
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/ColorRect"]
 layout_mode = 2
+offset_top = 4.0
+offset_right = 1176.0
+offset_bottom = 39.0
 
-[node name="Label4" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Label4" type="Label" parent="HBoxContainer/VBoxContainer/ColorRect/HBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 23
+theme_override_font_sizes/font_size = 25
 text = "Food:
 "
 
-[node name="goldValue" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="goldValue" type="Label" parent="HBoxContainer/VBoxContainer/ColorRect/HBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 23
+theme_override_font_sizes/font_size = 25
 text = "5
 "
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/ColorRect"]
 layout_mode = 2
+offset_top = 43.0
+offset_right = 1176.0
+offset_bottom = 78.0
 
-[node name="Label3" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="Label3" type="Label" parent="HBoxContainer/VBoxContainer/ColorRect/HBoxContainer2"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 23
+theme_override_font_sizes/font_size = 25
 text = "Gold: "
 
-[node name="foodValue" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="foodValue" type="Label" parent="HBoxContainer/VBoxContainer/ColorRect/HBoxContainer2"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 23
+theme_override_font_sizes/font_size = 25
 text = "5
+"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/ColorRect"]
+layout_mode = 2
+offset_top = 82.0
+offset_right = 1176.0
+offset_bottom = 117.0
+
+[node name="Label3" type="Label" parent="HBoxContainer/VBoxContainer/ColorRect/HBoxContainer3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Time:"
+
+[node name="timeValue" type="Label" parent="HBoxContainer/VBoxContainer/ColorRect/HBoxContainer3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "2
 "
 
 [node name="BuildButton" type="Button" parent="HBoxContainer"]

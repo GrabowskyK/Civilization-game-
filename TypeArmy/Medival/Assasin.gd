@@ -11,3 +11,4 @@ func _init():
 	cost = 7
 	_texture = "res://TypeArmy/Medival/assasin.png"
 	opis = "Simple assasin"
+	timeToRecruit = 3

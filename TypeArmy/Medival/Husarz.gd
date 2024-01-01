@@ -10,4 +10,5 @@ func _init():
 	cost = 15
 	_texture = "res://TypeArmy/Medival/husarz.png"
 	opis = "Simpler husarz"
+	timeToRecruit = 4
 	# Teraz możesz użyć getAttack()

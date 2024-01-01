@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://ban1jdnvd355m"]
+
+[ext_resource type="Script" path="res://Castle/Control/BuildingInProgressSolo.gd" id="1_g6a8q"]
+[ext_resource type="Texture2D" uid="uid://deyoqygadp5d6" path="res://TypeBuilding/statue.png" id="2_jgsc6"]
+
+[node name="Building" type="PanelContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 264.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+script = ExtResource("1_g6a8q")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_stretch_ratio = 3.37
+theme_override_constants/separation = 15
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+texture = ExtResource("2_jgsc6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Budynek" type="Label" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 46
+text = "Budynek"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="toBuild" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Time to build:"
+
+[node name="days" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "2
+"

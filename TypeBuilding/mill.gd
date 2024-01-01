@@ -8,5 +8,6 @@ func _init():
 	requiredFood = 10
 	_texture = "res://TypeBuilding/mill.png"
 	opis = "Każdy zbiór generuje dodatkowo 1 sztuke zboża więcej"
+	timeToBuild = 3
 	self.setFoodIncome(1)
 	# Teraz możesz użyć getAttack()

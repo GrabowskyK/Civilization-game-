@@ -3,9 +3,9 @@ extends PanelContainer
 @onready var nazwa = $HBoxContainer/VBoxContainer/nazwa
 @onready var opis = $HBoxContainer/VBoxContainer/Opis
 @onready var image = $HBoxContainer/TextureRect
-@onready var foodValue = $HBoxContainer/VBoxContainer/HBoxContainer2/foodValue
-@onready var goldValue = $HBoxContainer/VBoxContainer/HBoxContainer/goldValue
-
+@onready var foodValue = $HBoxContainer/VBoxContainer/ColorRect/HBoxContainer2/foodValue
+@onready var goldValue = $HBoxContainer/VBoxContainer/ColorRect/HBoxContainer/goldValue
+@onready var timeValue = $HBoxContainer/VBoxContainer/ColorRect/HBoxContainer3/timeValue
 var number 
 
 signal CreateBuilding(buildingObject)

@@ -3,7 +3,6 @@ extends Node2D
 @onready var camera = $Camera2D
 @onready var map = $TileMap
 @onready var labelSelectCastle = $LabelSelectCastle
-@onready var knight = $Knight2
 @onready var console = $Console/Text
 @onready var path = $Path
 @onready var currentPlayer = $PlayerVariables
@@ -36,7 +35,6 @@ var make = false
 var optionMove = false
 var lockZooming = true #Do blokowania oddalania/przybliżania kamery gdy potrzeba (np. panele)
 
-@onready var delete = $Knight3
 func _ready() -> void:
 	for i in range(0,GlobalVariables.flags.size(),1):
 			var newPlayer = PlayerClass.new()
@@ -45,8 +43,6 @@ func _ready() -> void:
 			players.append(newPlayer)
 	StartGame()
 	setCurrentPlayerNextPlayer(players[0])
-	var result = currentPlayer
-	knight.player = currentPlayer
 	windowSize = self.get_viewport_rect()
 	RefreshTheHUD()
 	pass # Replace with function body.
@@ -199,6 +195,7 @@ var i = 1
 func _RefreshVariableOnTurn() -> void:
 	RefreshFarmTileOnCurrentPlayer()
 	RefreshCastleFarms()
+	SubItemsInProgress(currentPlayer)
 	setCurrentPlayerNextPlayer(players[i%players.size()])
 	RefreshTheHUD()
 	RefreshUnitMovePoints()
@@ -253,5 +250,16 @@ func setCurrentPlayerNextPlayer(player : PlayerClass):
 	currentPlayer.faith = player.faith
 	currentPlayer.additionalFood = player.additionalFood
 	currentPlayer.additionalGold = player.additionalGold
+	
+func SubItemsInProgress(player: PlayerClass):
+	for build in player.castles:
+		if build.control.inProgressBuild.size() > 0:
+			build.control.inProgressBuild[0].timeToBuild -= 1
+		if build.control.inProgressArmy.size() > 0:
+			build.control.inProgressArmy[0].timeToRecruit -= 1
+		build.RefreshTheBuildStatus()
+		build.RefreshTheUnitStatusInProgress()
+		pass # Replace with function body.
+			
 	
 

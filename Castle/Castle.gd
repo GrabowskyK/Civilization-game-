@@ -21,7 +21,7 @@ var isCastleSelected : bool = false
 var mousePosition
 var mouseEntered : bool = false
 var tile_size = Vector2(64,64)
-var side_length = 2
+var side_length = 0
 signal SetCameraInCastle(value1 : Vector2)
 
 func _ready() -> void:
@@ -43,6 +43,8 @@ func _input(event: InputEvent) -> void:
 			control.visible = true
 			mainNode.camera.zoom = Vector2(1.5,1.5)
 			mainNode.lockZooming = false
+			control.totalFood.text = str(player.food)
+			control.totalGold.text = str(player.gold)
 		pass
 
 func _on_mouse_entered() -> void:
@@ -56,10 +58,10 @@ func _on_mouse_exited() -> void:
 
 func RefreshTheFoodIncome(): #Ma się robić co runde
 	income = 0
-	var start_x = int((position.x-32 - side_length * tile_size.x) / tile_size.x)
-	var start_y = int((position.y-32 - side_length * tile_size.y) / tile_size.y)
-	var end_x = int((position.x-32 + side_length * tile_size.x) / tile_size.x)
-	var end_y = int((position.y-32 + side_length * tile_size.y) / tile_size.y)
+	var start_x = int(position.x-32 - (level * tile_size.x) / tile_size.x)
+	var start_y = int(position.y-32 - (level * tile_size.y) / tile_size.y)
+	var end_x = int(position.x-32 + (level * tile_size.x) / tile_size.x)
+	var end_y = int(position.y-32 + (level * tile_size.y) / tile_size.y)
 
 	# Sprawdź, czy w obszarze znajduje się jakiś kafelek
 	for x in range(start_x, end_x + 1):
@@ -75,3 +77,27 @@ signal CreateJednostka_v3(jednostka_v3, positionToSetUnit)
 func _on_control_create_jednostke_v_2(jednostka) -> void:
 	emit_signal("CreateJednostka_v3",jednostka, self.position)
 	pass # Replace with function body.
+
+#Funcja, która dla każdego budynku w każdym zamku sprawda czy już został wybudowany
+#Jeżeli tak to dodaje statystyki
+func RefreshTheBuildStatus():
+	for build in control.inProgressBuild:
+		if(build.timeToBuild == 0):
+			builtBuildings.append(build)
+			if build.additionalAttack != null:
+				player.additionalAttack += build.additionalAttack
+			if build.additionalDefense != null:
+				player.additionalDefense += build.additionalDefense
+			if build.faith != null:
+				player.faith += build.faith
+			if build.incomeFood != null:
+				player.additionalFood += build.incomeFood
+			if build.incomeGold != null:
+				player.additionalGold += build.incomeGold
+			control.inProgressBuild.pop_at(0)
+			
+func RefreshTheUnitStatusInProgress():
+	for unit in control.inProgressArmy:
+		if(unit.timeToRecruit == 0):
+			emit_signal("CreateJednostka_v3",unit, self.position)
+			control.inProgressArmy.pop_at(0)

@@ -1,15 +1,14 @@
 extends VBoxContainer
+@onready var mainNode = $"../../../../../../.."
 var newInstance 
 var building : PackedScene = preload("res://Castle/Control/BuildingContainer.tscn") 
 var budynkiLvl1 : Array = [Bank.new(),Mill.new(),Statue.new(), Barrack.new()]
-
 var builded : Array = []
 var notAvaibleToBuild : Array = []
 
-var i = 0
+
 func _ready() -> void:
-	var result  = Bank.new()
-	print(result.incomeGold)
+	var i = 0
 	for item in budynkiLvl1:
 		newInstance = building.instantiate()
 		add_child(newInstance)
@@ -20,24 +19,19 @@ func _ready() -> void:
 		newInstance.image.texture = load(item._texture)
 		newInstance.opis.text = item.opis
 		newInstance.nazwa.text = item.nameBuilding
+		newInstance.timeValue.text = str(item.timeToBuild) + " days" 
 		i += 1
 
-signal UpdatePlayerStats(buildObject)
+signal SendToProgress(buildObject)
 func _updatePlayerStatsAfterBuild(buildingObject):
-	var childs = get_tree()
-	var building = buildingObject.number
-	emit_signal("UpdatePlayerStats", budynkiLvl1[building])
-	match building:
-		0:
-			builded.append(budynkiLvl1[building])
-			childs.queue_delete(buildingObject)
-		1:
-			builded.append(budynkiLvl1[building])
-			childs.queue_delete(buildingObject)
-		2:
-			builded.append(budynkiLvl1[building])
-			childs.queue_delete(buildingObject)
-		3:
-			builded.append(budynkiLvl1[building])
-			childs.queue_delete(buildingObject)
-	
+	var parent = mainNode.get_parent()
+	var building = budynkiLvl1[buildingObject.number]
+	if parent.player.gold < building.requiredGold or parent.player.food < building.requiredFood:
+		print("Posiadasz za mało surowców!")
+	else:
+		var childs = get_tree()
+		mainNode.inProgressBuild.append(building)
+		emit_signal("SendToProgress",building)
+		childs.queue_delete(buildingObject)
+		
+

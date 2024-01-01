@@ -13,6 +13,7 @@ var additionalAttack
 var additionalDefense
 var _texture
 var opis
+var timeToBuild
 
 func _init():
 	nameBuilding = ""
@@ -20,6 +21,7 @@ func _init():
 	requiredFood = 0
 	_texture = ""
 	opis = ""
+	timeToBuild = 0
 
 func setGoldIncome(gold):
 	incomeGold = gold

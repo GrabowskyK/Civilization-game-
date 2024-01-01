@@ -3,8 +3,8 @@ extends Node2D
 class_name PlayerClass
 var playerName = ""
 var playerFlag = ""
-var gold = 10
-var food = 10
+var gold = 100
+var food = 100
 
 #Vector2(x,y),ilość tur. 2 tury na "rozgrzanie", 5 tur działania. Startowa wartość = 7
 var foodFields = [] #Tablica, która przechowuje za ile ma się zamienić farma w działającą

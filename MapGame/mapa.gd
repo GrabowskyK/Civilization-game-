@@ -27,9 +27,9 @@ func _input(event: InputEvent):
 		mouse_position = get_global_mouse_position()
 		positionClickedTile = self.local_to_map(Vector2(mouse_position.x,mouse_position.y))
 	
-#	if(event.is_action_pressed("click")):
-#		mouse_position = get_global_mouse_position()
-#		print(self.local_to_map(Vector2(mouse_position.x,mouse_position.y)))
+	if(event.is_action_pressed("click")):
+		mouse_position = get_global_mouse_position()
+		print(self.local_to_map(Vector2(mouse_position.x,mouse_position.y)))
 
 
 func _on_popup_menu_test_get_local_tile_map() -> void:

@@ -12,7 +12,7 @@ var cost: int
 var _texture 
 var opis 
 var _player
-
+var timeToRecruit
 func _init():
 	nameArmy = ""
 	attack = 1
@@ -22,4 +22,5 @@ func _init():
 	_texture = ""
 	opis = ""
 	_player = ""
+	timeToRecruit = 0
 

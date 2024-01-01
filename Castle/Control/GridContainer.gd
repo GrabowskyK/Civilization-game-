@@ -1,4 +1,5 @@
 extends GridContainer
+@onready var mainNode = $"../../../../../../.."
 var newInstance 
 var jednostkiLvl1 : Array = [Farmer.new(), Knight.new(),Archer.new(),Husarz.new(), Assasin.new()]
 var jednostkaArmy : PackedScene = preload("res://Castle/Control/type_army.tscn") 
@@ -22,5 +23,10 @@ func _ready() -> void:
 	pass
 
 signal CreateKnightFromCastle(jednostkaType)
+signal SentUnitToProgress(unitObject)
 func test(jednostka):
-	emit_signal("CreateKnightFromCastle",jednostkiLvl1[jednostka])
+	#mainNode.inProgressArmy.append(jednostka)
+	emit_signal("SentUnitToProgress",jednostkiLvl1[jednostka].duplicate())
+	#emit_signal("CreateKnightFromCastle",jednostkiLvl1[jednostka])
+	
+
