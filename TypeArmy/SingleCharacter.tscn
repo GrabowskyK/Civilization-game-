@@ -15,20 +15,21 @@ position = Vector2(32, 32)
 script = ExtResource("1_o0rrk")
 
 [node name="Texture" type="Sprite2D" parent="."]
+position = Vector2(1, -1)
 texture = ExtResource("2_a5h3g")
 
 [node name="TextureRect" type="TextureRect" parent="Texture"]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -65.0
-offset_top = -46.0
-offset_right = -5.0
-offset_bottom = -26.0
+offset_left = -51.0
+offset_top = -49.0
+offset_right = -6.0
+offset_bottom = -19.0
 grow_horizontal = 0
 size_flags_horizontal = 4
 texture = ExtResource("3_fqtx0")
-expand_mode = 1
+expand_mode = 5
 
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_sn8w4")

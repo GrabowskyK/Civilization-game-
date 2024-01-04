@@ -54,65 +54,36 @@ layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="PanelContainer/Box/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 0
+size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/Box/VBoxContainer/PanelContainer"]
 layout_mode = 2
+theme_override_constants/separation = 28
 
 [node name="Type" type="VBoxContainer" parent="PanelContainer/Box/VBoxContainer/PanelContainer/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
 [node name="Label" type="Label" parent="PanelContainer/Box/VBoxContainer/PanelContainer/HBoxContainer/Type"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 23
+theme_override_font_sizes/font_size = 31
 text = "Zamek nazwa
 "
-horizontal_alignment = 2
-
-[node name="Food" type="Label" parent="PanelContainer/Box/VBoxContainer/PanelContainer/HBoxContainer/Type"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 23
-text = "Food
-"
-horizontal_alignment = 2
-
-[node name="Income" type="Label" parent="PanelContainer/Box/VBoxContainer/PanelContainer/HBoxContainer/Type"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 23
-text = "Income"
 horizontal_alignment = 2
 
 [node name="Numbers" type="VBoxContainer" parent="PanelContainer/Box/VBoxContainer/PanelContainer/HBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 4
 
 [node name="NameCastle" type="Label" parent="PanelContainer/Box/VBoxContainer/PanelContainer/HBoxContainer/Numbers"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 23
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 31
 text = "Zamek nazwa
-"
-
-[node name="FoodValue" type="Label" parent="PanelContainer/Box/VBoxContainer/PanelContainer/HBoxContainer/Numbers"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 23
-text = "0
-"
-
-[node name="IncomeValue" type="Label" parent="PanelContainer/Box/VBoxContainer/PanelContainer/HBoxContainer/Numbers"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 23
-text = "0
 "
 
 [node name="PanelContainer" type="PanelContainer" parent="PanelContainer/Box/VBoxContainer/PanelContainer"]
@@ -313,7 +284,6 @@ theme_override_font_sizes/font_size = 34
 text = "X"
 
 [connection signal="SendToProgress" from="PanelContainer/Box/VBoxContainer/HBoxContainer/Buildings/MarginContainer2/Buildings" to="PanelContainer/Box/VBoxContainer/HBoxContainer/InProgress/MarginContainer2/InProgressBuilding/BuildingRect/VBoxContainer/ScrollContainer/VBoxContainer" method="_on_buildings_send_to_progress"]
-[connection signal="CreateKnightFromCastle" from="PanelContainer/Box/VBoxContainer/HBoxContainer/Army/MarginContainer2/GridContainer" to="." method="_on_grid_container_create_knight_from_castle"]
 [connection signal="SentUnitToProgress" from="PanelContainer/Box/VBoxContainer/HBoxContainer/Army/MarginContainer2/GridContainer" to="PanelContainer/Box/VBoxContainer/HBoxContainer/InProgress/MarginContainer2/InProgressBuilding/ArmyRect/VBoxContainer/ScrollContainer/VBoxContainer" method="_on_grid_container_sent_unit_to_progress"]
 [connection signal="draw" from="PanelContainer/Box/VBoxContainer/HBoxContainer/InProgress/MarginContainer2/InProgressBuilding/BuildingRect/VBoxContainer/ScrollContainer/VBoxContainer" to="PanelContainer/Box/VBoxContainer/HBoxContainer/InProgress/MarginContainer2/InProgressBuilding/BuildingRect/VBoxContainer/ScrollContainer/VBoxContainer" method="_on_draw"]
 [connection signal="draw" from="PanelContainer/Box/VBoxContainer/HBoxContainer/InProgress/MarginContainer2/InProgressBuilding/ArmyRect/VBoxContainer/ScrollContainer/VBoxContainer" to="PanelContainer/Box/VBoxContainer/HBoxContainer/InProgress/MarginContainer2/InProgressBuilding/ArmyRect/VBoxContainer/ScrollContainer/VBoxContainer" method="_on_draw"]

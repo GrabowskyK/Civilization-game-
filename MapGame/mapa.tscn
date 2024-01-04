@@ -381,8 +381,8 @@ navigation_layer_0/layers = 1
 custom_data_layer_0/name = "walkable"
 custom_data_layer_0/type = 1
 sources/1 = SubResource("TileSetAtlasSource_xl072")
-sources/2 = SubResource("TileSetAtlasSource_cjj35")
 sources/0 = SubResource("TileSetAtlasSource_8clwk")
+sources/2 = SubResource("TileSetAtlasSource_cjj35")
 
 [node name="TileMap" type="TileMap"]
 tile_set = SubResource("TileSet_1td2q")

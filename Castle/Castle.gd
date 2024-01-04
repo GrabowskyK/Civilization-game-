@@ -3,19 +3,20 @@ extends Area2D
 class_name CastleClass
 var player
 var castleName: String = ""
-var health = 100
-var defend = 1
+var health = 5
+var defense = 1
 var attack = 1
 var level = 1
 var builtBuildings: Array = [] #Zbudowane budynki
 var currentInCastle: Array = [] #Jakie jednostki są w zamku
 var income = 0
-
+var isEntered = false
 #Tutja można dalej rozwijać
 @onready var mainNode = $".."
 @onready var sprite2D = $Sprite2D
 @onready var control = $Control
 @onready var map = $"../TileMap"
+@onready var flag = $Sprite2D/TextureRect
 
 var isCastleSelected : bool = false
 var mousePosition
@@ -25,9 +26,8 @@ var side_length = 0
 signal SetCameraInCastle(value1 : Vector2)
 
 func _ready() -> void:
-	control.nameCastle.text = castleName
-	control.incomeValue.text = str(income)
 	RefreshTheFoodIncome()
+	flag.texture = load(player.playerFlag)
 	pass # Replace with function body.
 
 func _process(delta: float) -> void:
@@ -58,19 +58,19 @@ func _on_mouse_exited() -> void:
 
 func RefreshTheFoodIncome(): #Ma się robić co runde
 	income = 0
-	var start_x = int(position.x-32 - (level * tile_size.x) / tile_size.x)
-	var start_y = int(position.y-32 - (level * tile_size.y) / tile_size.y)
-	var end_x = int(position.x-32 + (level * tile_size.x) / tile_size.x)
-	var end_y = int(position.y-32 + (level * tile_size.y) / tile_size.y)
+	var start_x = int((position.x-32 - (level * tile_size.x)) / tile_size.x) #-14
+	var start_y = int((position.y-32 - (level * tile_size.y)) / tile_size.y)
+	var end_x = int((position.x-32 + (level * tile_size.x)) / tile_size.x) #-12
+	var end_y = int((position.y-32 + (level * tile_size.y)) / tile_size.y) 
 
 	# Sprawdź, czy w obszarze znajduje się jakiś kafelek
 	for x in range(start_x, end_x + 1):
 		for y in range(start_y, end_y + 1):
-			var tile_index = map.get_cell_alternative_tile(3,Vector2(x,y))
+			var tile_index = map.get_cell_alternative_tile(2,Vector2(1,2))
+			print("Znaleziono kafelek na pozycji:", Vector2(x, y), "o indeksie:", tile_index)
 			if tile_index != -1:
 				income += 2
-				#print("Znaleziono kafelek na pozycji:", Vector2(x, y), "o indeksie:", tile_index)
-	control.incomeValue.text = str(income)
+				print("Znaleziono kafelek na pozycji:", Vector2(x, y), "o indeksie:", tile_index)
 	return income
 
 signal CreateJednostka_v3(jednostka_v3, positionToSetUnit)
@@ -101,3 +101,5 @@ func RefreshTheUnitStatusInProgress():
 		if(unit.timeToRecruit == 0):
 			emit_signal("CreateJednostka_v3",unit, self.position)
 			control.inProgressArmy.pop_at(0)
+			
+	

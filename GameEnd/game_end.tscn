@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=3 uid="uid://e1iqycrtpv37"]
+
+[ext_resource type="Texture2D" uid="uid://d37uxhjawwduh" path="res://menu/flags/ao.png" id="1_vhc2n"]
+[ext_resource type="Script" path="res://GameEnd/game_end.gd" id="1_yrk6d"]
+
+[node name="GameEnd" type="CanvasLayer"]
+script = ExtResource("1_yrk6d")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
+layout_mode = 2
+color = Color(0.329412, 0.321569, 0.305882, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 40
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("1_vhc2n")
+stretch_mode = 3
+
+[node name="WhoWIn" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 0.0
+theme_override_font_sizes/font_size = 52
+text = "Gracz player0 wygrał"
+horizontal_alignment = 1
+
+[node name="Resonwin" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 0.0
+theme_override_font_sizes/font_size = 27
+text = "Tekst"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+text = "Powrót do Menu"

@@ -8,6 +8,8 @@ extends Node2D
 @onready var healthValue = $TextureProgressBar/healthValue
 @onready var unitFlag = $Texture/TextureRect
 
+var isEntered = false
+
 var player : PlayerClass
 var jednostkaName : String
 var health : int = 10
@@ -28,7 +30,7 @@ var target: Vector2
 var is_moving: bool
 var current_point_path: PackedVector2Array
 var rememberPoints: PackedVector2Array
-var movement = 10
+var movement = 100
 
 signal GetLocalTileMap
 signal CreateCastle
@@ -129,39 +131,44 @@ func _on_mouse_exited() -> void:
 
 
 func _on_area_entered(area: Area2D) -> void:
-	if self.player != area.player :
-		#Wzór do szansy pokonania każdej jednostki
-		var tempAttackFirst
-		var tempAttackSecound
-		while self.health > 0 and area.health > 0:
-			#atak
-			tempAttackFirst = (attack + player.additionalAttack) * randf_range(0.8,1)
-			tempAttackSecound = (area.attack + area.player.additionalAttack) * randf_range(0.8,1)
-			
-			if (self.attack < area.attack):
-				self.health -= round(tempAttackSecound / (self.defense * randf_range(0.4,0.6)))
-				if(self.health > 0):
-					area.health -= round(tempAttackFirst / (area.defense * randf_range(0.4,0.6)))
+	print(area)
+	print(self)
+	self.position = area.position
+	makeMove = false
+	if self.player != area.player:
+		if self.isEntered == false and area.isEntered == false:
+			self.isEntered = true
+			area.isEntered = true
+			var fightSystemPath = preload("res://FightSystem/fight_system.tscn")
+			var fightNode = fightSystemPath.instantiate()
+			fightNode.unit1 = self
+			fightNode.unit2 = area
+			add_child(fightNode)
+			await(get_tree().create_timer(1).timeout)
+			await(fightNode.fightSystem())
+			var result = fightNode.RemoveUnit()
+			if result == self:
+				self.health = result.health
+				self.healthValue.text = str(result.health)
+				self.healthBar.value = result.health
+				self.isEntered = false
+				if area is CastleClass:
+					area.player.castles.pop_at(player.castles.find(area,0))
+				else:
+					area.player.units.pop_at(player.units.find(area,0))
+				area.queue_free()
 			else:
-				area.health -= round(tempAttackFirst / (area.defense * randf_range(0.4,0.6)))
-				if area.health > 0:
-					self.health -= round(tempAttackSecound / (self.defense * randf_range(0.4,0.6)))
-				
-			print("Health: ", self.health, " - ", area.health)
-			print("Attack: ", self.attack, " - ", area.attack)
-		
-		
-		if self.health <= 0:
-			#console.text = console.text + "\n" + str(area.player.playerName) + " pokonał jednostke," + str(self.player.playerName) + "\n" + "zostawił " + str(area.health) + " zdrowia"  
-			area.healthBar.value = area.health
-			area.healthValue.text = str(area.health) + "/" + str(area.healthBar.max_value)
-			self.queue_free()
-		else:
-			#console.text = console.text + "\n" + str(self.player.playerName) + " pokonał jednostke," + str(area.player.playerName) + "\n" + "zostawił " + str(self.health) + " zdrowia"  
-			self.healthBar.value = self.health
-			self.healthValue.text = str(self.health) + "/" + str(self.healthBar.max_value)
-			area.queue_free()
-	
+				area.health = result.health
+				area.healthValue.text = str(result.health)
+				area.healthBar.value = result.health
+				area.isEntered = false
+				if self.area is CastleClass:
+					self.player.castles.pop_at(player.castles.find(area,0))
+				else:
+					self.player.units.pop_at(player.units.find(area,0))
+				self.queue_free()
+			fightNode.queue_free()	
+	get_parent()._IsPlayerDefeted()
 	pass # Replace with function body.
 
 

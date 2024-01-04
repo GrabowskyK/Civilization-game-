@@ -1,0 +1,275 @@
+[gd_scene load_steps=6 format=3 uid="uid://dbtw5bxswywlj"]
+
+[ext_resource type="Texture2D" uid="uid://lgrwdp724vwx" path="res://TypeArmy/Army lvl2/STFourSwords.png" id="1_e85h3"]
+[ext_resource type="Script" path="res://FightSystem/fight_system.gd" id="1_pk3oi"]
+[ext_resource type="Texture2D" uid="uid://t7r5febcrm2p" path="res://FightSystem/fightHealthBarRed.png" id="3_rlf05"]
+[ext_resource type="Texture2D" uid="uid://cphc8gabmqm3d" path="res://FightSystem/fightHealthBar.png" id="4_i8f2x"]
+[ext_resource type="Texture2D" uid="uid://qwfpdrqjrun2" path="res://menu/flags/bb.png" id="5_2nty8"]
+
+[node name="FightSystem" type="CanvasLayer"]
+layer = 3
+script = ExtResource("1_pk3oi")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="ColorRect" type="ColorRect" parent="PanelContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.192157, 0.192157, 0.192157, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/HBoxContainer/MarginContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -60.0
+offset_right = 280.0
+offset_bottom = 60.0
+grow_vertical = 2
+theme_override_constants/margin_left = 100
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/HBoxContainer/MarginContainer/ColorRect/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+texture = ExtResource("5_2nty8")
+stretch_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer/MarginContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -209.5
+offset_right = 256.0
+offset_bottom = 209.5
+grow_vertical = 2
+size_flags_vertical = 4
+
+[node name="NameUnit" type="Label" parent="PanelContainer/HBoxContainer/MarginContainer/ColorRect/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Nazwa jednostki"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect3" type="TextureRect" parent="PanelContainer/HBoxContainer/MarginContainer/ColorRect/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("1_e85h3")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="PanelContainer/HBoxContainer/MarginContainer/ColorRect/VBoxContainer"]
+z_index = 2
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+value = 100.0
+texture_under = ExtResource("3_rlf05")
+texture_progress = ExtResource("4_i8f2x")
+
+[node name="healthValue" type="Label" parent="PanelContainer/HBoxContainer/MarginContainer/ColorRect/VBoxContainer/TextureProgressBar"]
+layout_mode = 2
+offset_left = 87.0
+offset_top = 10.0
+offset_right = 343.0
+offset_bottom = 28.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 23
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/HBoxContainer/MarginContainer/ColorRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/MarginContainer/ColorRect/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Attack: "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="attackValue" type="Label" parent="PanelContainer/HBoxContainer/MarginContainer/ColorRect/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "0
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/HBoxContainer/MarginContainer/ColorRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/MarginContainer/ColorRect/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Defend:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="defenseValue" type="Label" parent="PanelContainer/HBoxContainer/MarginContainer/ColorRect/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "0
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="dmgToUnit1" type="Label" parent="PanelContainer/HBoxContainer/MarginContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_font_sizes/font_size = 24
+text = "-14
+"
+
+[node name="MarginContainer2" type="MarginContainer" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="ColorRect" type="ColorRect" parent="PanelContainer/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.192157, 0.192157, 0.192157, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/HBoxContainer/MarginContainer2/ColorRect"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -60.0
+offset_bottom = 60.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/margin_right = 100
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/HBoxContainer/MarginContainer2/ColorRect/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("5_2nty8")
+stretch_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer/MarginContainer2/ColorRect"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -209.5
+offset_bottom = 209.5
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_vertical = 4
+
+[node name="NameUnit" type="Label" parent="PanelContainer/HBoxContainer/MarginContainer2/ColorRect/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Nazwa jednostki"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect3" type="TextureRect" parent="PanelContainer/HBoxContainer/MarginContainer2/ColorRect/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("1_e85h3")
+flip_h = true
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="PanelContainer/HBoxContainer/MarginContainer2/ColorRect/VBoxContainer"]
+z_index = 2
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+value = 100.0
+texture_under = ExtResource("3_rlf05")
+texture_progress = ExtResource("4_i8f2x")
+
+[node name="healthValue" type="Label" parent="PanelContainer/HBoxContainer/MarginContainer2/ColorRect/VBoxContainer/TextureProgressBar"]
+layout_mode = 2
+offset_left = 87.0
+offset_top = 10.0
+offset_right = 343.0
+offset_bottom = 28.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 23
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/HBoxContainer/MarginContainer2/ColorRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/MarginContainer2/ColorRect/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Attack: "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="PanelContainer/HBoxContainer/MarginContainer2/ColorRect/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "0
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/HBoxContainer/MarginContainer2/ColorRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/MarginContainer2/ColorRect/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Defend:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="PanelContainer/HBoxContainer/MarginContainer2/ColorRect/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "0
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="dmgToUnit2" type="Label" parent="PanelContainer/HBoxContainer/MarginContainer2"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 24
+text = "-10"
+
+[node name="Button" type="Button" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.5
+offset_top = -31.0
+offset_right = 20.5
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 38
+text = "Skip 
+"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

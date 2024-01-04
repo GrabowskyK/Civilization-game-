@@ -64,7 +64,7 @@ func StartGame():
 			castle_node.player = players[i]
 			add_child(castle_node)
 			castle_node.connect("CreateJednostka_v3",_CreateJednostkaFromCastle)
-			#camera.input_vector = castlePosition
+			camera.input_vector = castlePosition
 			players[i].castleFields.push_back(castle_node)
 			#map.set_cell(4,castlePosition,2,Vector2i(0,7))
 			players[i].castles.append(castle_node)
@@ -101,9 +101,10 @@ func _on_knight_create_castle() -> void:
 	newCastlePosition.x =  map.localTile.x * tileSize + tileSize/2
 	newCastlePosition.y =  map.localTile.y * tileSize + tileSize/2
 	for castle in currentPlayer.castleFields:
-		var castle_position: Vector2 = castle.position
-		var distance: float = floor(castle_position.distance_to(newCastlePosition))
-		if (distance == 202 or distance == 230 or distance == 271) or distance <= 192 :
+		var localPositionCastle = Vector2(map.local_to_map(castle.position))
+		#Poniższa liniijka sprawdza jak daleko jest punkt od punktu. Układ współrzędnych
+		var distance: float = localPositionCastle.distance_to(Vector2(map.local_to_map(newCastlePosition)))
+		if distance <= 5:
 			print("Zamek nie może stać zbyt blisko innego 7x7")
 			return
 	if map.get_cell_alternative_tile(2,map.localTile) != 0 and map.get_cell_alternative_tile(4,map.localTile) != 0:
@@ -195,8 +196,10 @@ var i = 1
 func _RefreshVariableOnTurn() -> void:
 	RefreshFarmTileOnCurrentPlayer()
 	RefreshCastleFarms()
-	SubItemsInProgress(currentPlayer)
+	#SubItemsInProgress(currentPlayer)
 	setCurrentPlayerNextPlayer(players[i%players.size()])
+	SubItemsInProgress(currentPlayer)
+	CheckIfPossibleToUpgradeCivilization(currentPlayer)
 	RefreshTheHUD()
 	RefreshUnitMovePoints()
 	if (i%players.size()) == 0:
@@ -261,5 +264,38 @@ func SubItemsInProgress(player: PlayerClass):
 		build.RefreshTheUnitStatusInProgress()
 		pass # Replace with function body.
 			
-	
+func CheckIfPossibleToUpgradeCivilization(player : PlayerClass):
+	var k = 0
+	var numberOfBuildings = player.castles[0].control.tempBuild.budynki.size()
+	for castle in player.castles:
+		if castle.builtBuildings.size() == numberOfBuildings:
+			k += 1
+	if k >= 3:
+		for castle in player.castles:
+			currentPlayer.numberCivilization += 1
+			castle.builtBuildings = []
+			castle.control.tempBuild.RefreshBuildingView()
+			castle.control.tempArmy.RefreshUnitView()
+			castle.health = 125
+			castle.attack = 5
+			castle.defense = 5
+			castle.side_length += 1
+			castle.income = 5
+			castle.level += 1
 
+func IsGameEnd():
+	for player in players:
+		if player.faith == 100:
+			print("Player ", players[players.find(player,0)], " wygrał")
+	if players.size() == 1:
+		print("Player ", players[0], " wygrał")
+
+func _IsPlayerDefeted():
+	for player in players:
+		if player.castles.is_empty():
+			players.pop_at(players.find(player,0))
+			for unit in player.units:
+				unit.queue_free()
+			player.queue_free()
+	IsGameEnd()
+	pass

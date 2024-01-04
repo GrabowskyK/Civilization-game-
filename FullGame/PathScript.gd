@@ -23,11 +23,6 @@ func _draw():
 		draw_line(player.current_point_path[i], player.current_point_path[i + 1], colors[i], 2)
 
 
-func _on_area_character_delete_line() -> void:
-	
-	pass # Replace with function body.
-
-
 func _on_knight_delete_line() -> void:
 	player.current_point_path.remove_at(0)
 	player.rememberPoints.remove_at(0)

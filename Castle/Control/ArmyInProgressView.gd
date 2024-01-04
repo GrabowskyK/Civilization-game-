@@ -3,7 +3,6 @@ extends VBoxContainer
 var newInstance
 
 func _on_grid_container_sent_unit_to_progress(unitObject) -> void:
-	mainControl.inProgressArmy.append(unitObject)
 	var unit = preload("res://Castle/Control/ArmyInProgress.tscn")
 	newInstance = unit.instantiate()
 	add_child(newInstance)

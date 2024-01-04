@@ -10,6 +10,8 @@ extends Control
 @onready var totalFood = $PanelContainer/Box/VBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/Label2
 @onready var totalGold = $PanelContainer/Box/VBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer2/Label2
 
+@onready var tempBuild = $PanelContainer/Box/VBoxContainer/HBoxContainer/Buildings/MarginContainer2/Buildings
+@onready var tempArmy = $PanelContainer/Box/VBoxContainer/HBoxContainer/Army/MarginContainer2/GridContainer
 var inProgressBuild : Array = []
 var inProgressArmy : Array = []
 
