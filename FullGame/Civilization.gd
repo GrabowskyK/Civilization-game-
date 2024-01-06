@@ -7,6 +7,7 @@ extends Node2D
 @onready var path = $Path
 @onready var currentPlayer = $PlayerVariables
 @onready var turnButton = $Console/UI/MarginContainer/VBoxContainer/Day
+@onready var FogNode = $Fog
 
 var playerVariablePath = ""
 #var players : Array = [ PlayerClass.new(), PlayerClass.new(), PlayerClass.new()]
@@ -35,18 +36,76 @@ var make = false
 var optionMove = false
 var lockZooming = true #Do blokowania oddalania/przybliżania kamery gdy potrzeba (np. panele)
 
+var fogImageArray = []
+var fogImage1
+var fogImage2
+var fogImage3
+var fogImage4
 func _ready() -> void:
+		# get Image from CompressedTexture2D and resize it
+	lightImage = LightTexture.get_image()
+	#lightImage.resize(300, 300)
+	var result = lightImage
+  # get center
+	light_offset = Vector2(lightImage.get_size().x/2, lightImage.get_size().y/2)
+
+  # create black canvas (fog)
+	var mapSize = map.get_used_rect()
+	
+	fogImage1 = Image.create(mapSize.size.x * tileSize, mapSize.size.y * tileSize, false, Image.FORMAT_RGBA8)
+	fogImage1.fill(Color.BLACK)
+	fogImage2 = Image.create(mapSize.size.x * tileSize, mapSize.size.y * tileSize, false, Image.FORMAT_RGBA8)
+	fogImage2.fill(Color.BLACK)
+	fogImage3 = Image.create(mapSize.size.x * tileSize, mapSize.size.y * tileSize, false, Image.FORMAT_RGBA8)
+	fogImage3.fill(Color.BLACK)
+	fogImage4 = Image.create(mapSize.size.x * tileSize, mapSize.size.y * tileSize, false, Image.FORMAT_RGBA8)
+	fogImage4.fill(Color.BLACK)
+	fogImageArray.append(fogImage1)
+	fogImageArray.append(fogImage2)
+	fogImageArray.append(fogImage3)
+	fogImageArray.append(fogImage4)
+	fog.offset = Vector2(mapSize.position.x * tileSize, mapSize.position.y * tileSize)
+	
+	fogTexture = ImageTexture.create_from_image(fogImage1)
+	fog.texture = fogTexture
+	
+  # get Rect2 from our Image to use it with .blend_rect() later
+	light_rect = Rect2(Vector2.ZERO, lightImage.get_size())
 	for i in range(0,GlobalVariables.flags.size(),1):
 			var newPlayer = PlayerClass.new()
 			newPlayer.playerFlag = GlobalVariables.flags[i]
 			newPlayer.playerName = GlobalVariables.names[i]
+			newPlayer.fogTexture = fogImageArray[i]
 			players.append(newPlayer)
+	
 	StartGame()
 	setCurrentPlayerNextPlayer(players[0])
 	windowSize = self.get_viewport_rect()
 	RefreshTheHUD()
 	pass # Replace with function body.
 
+func update_fog(pos, image):
+	image.blend_rect(lightImage, light_rect, pos - light_offset - fog.offset)
+	fog.texture.update(image)
+	
+	
+func _process(delta: float) -> void:
+	pass
+	
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("click"):
+		print(fog)
+		print(fogTexture)
+		print(fogImage)
+		var a = fogTexture
+		var b = fogImage
+#	if event.is_action_pressed("right_click"):
+#		fogImage = Image.create(52 * tileSize, 40 * tileSize, false, Image.FORMAT_RGBA8)
+#		fogImage.fill(Color.BLACK)
+#		fogTexture = ImageTexture.create_from_image(fogImage)
+#		fog.texture = fogTexture
+#
+	
 func StartGame():
 	var jednostkaPath = load("res://TypeArmy/SingleCharacter.tscn")
 	var castle_scene = load("res://Castle/Castle.tscn")
@@ -68,6 +127,7 @@ func StartGame():
 			players[i].castleFields.push_back(castle_node)
 			#map.set_cell(4,castlePosition,2,Vector2i(0,7))
 			players[i].castles.append(castle_node)
+			update_fog(castle_node.position, players[i].fogTexture)
 		else:
 			#Ta funkcja jest źle zrobiona ale nie chce tracic czasu
 			var k = 1
@@ -89,12 +149,8 @@ func StartGame():
 		jednostkaNode.position = unitPosition
 		add_child(jednostkaNode)
 		players[i].units.append(jednostkaNode)
-
-func _process(delta: float) -> void:
-	pass
-func _input(event: InputEvent) -> void:
-	mousePosition = get_local_mouse_position()
-
+		update_fog(jednostkaNode.position, players[i].fogTexture)
+	
 
 func _on_knight_create_castle() -> void:
 	var newCastlePosition : Vector2 = Vector2(0,0)
@@ -105,7 +161,7 @@ func _on_knight_create_castle() -> void:
 		#Poniższa liniijka sprawdza jak daleko jest punkt od punktu. Układ współrzędnych
 		var distance: float = localPositionCastle.distance_to(Vector2(map.local_to_map(newCastlePosition)))
 		if distance <= 5:
-			print("Zamek nie może stać zbyt blisko innego 7x7")
+			print("Zamek nie może stać zbyt blisko innego 5x5")
 			return
 	if map.get_cell_alternative_tile(2,map.localTile) != 0 and map.get_cell_alternative_tile(4,map.localTile) != 0:
 		var castle_scene = load(castle_scene_path)
@@ -120,6 +176,7 @@ func _on_knight_create_castle() -> void:
 		currentPlayer.castleFields.push_back(castle_node)
 		map.set_cell(4,map.localTile,2,Vector2i(0,7))
 		currentPlayer.castles.append(castle_node)
+		update_fog(castle_node.position, currentPlayer.fogTexture)
 	else:
 		console.text += "Nie można utworzyć tutaj zamku"
 	return
@@ -140,6 +197,7 @@ func _CreateJednostkaFromCastle(jednostka, positionToSetUnit):
 	jednostkaNode.position = unitPosition
 	add_child(jednostkaNode)
 	currentPlayer.units.append(jednostkaNode)
+	update_fog(jednostkaNode.position, currentPlayer.fogTexture)
 	pass
 	
 	
@@ -198,6 +256,7 @@ func _RefreshVariableOnTurn() -> void:
 	RefreshCastleFarms()
 	#SubItemsInProgress(currentPlayer)
 	setCurrentPlayerNextPlayer(players[i%players.size()])
+	fog.texture = ImageTexture.create_from_image(currentPlayer.fogTexture)
 	SubItemsInProgress(currentPlayer)
 	CheckIfPossibleToUpgradeCivilization(currentPlayer)
 	RefreshTheHUD()
@@ -253,7 +312,9 @@ func setCurrentPlayerNextPlayer(player : PlayerClass):
 	currentPlayer.faith = player.faith
 	currentPlayer.additionalFood = player.additionalFood
 	currentPlayer.additionalGold = player.additionalGold
-	
+	currentPlayer.fogTexture = player.fogTexture
+	fog.texture.update(currentPlayer.fogTexture)
+
 func SubItemsInProgress(player: PlayerClass):
 	for build in player.castles:
 		if build.control.inProgressBuild.size() > 0:
@@ -289,13 +350,30 @@ func IsGameEnd():
 			print("Player ", players[players.find(player,0)], " wygrał")
 	if players.size() == 1:
 		print("Player ", players[0], " wygrał")
+		var gameEndPath = load("res://GameEnd/game_end.tscn")
+		var gameEndNode = gameEndPath.instantiate()
+		add_child(gameEndNode)
 
+@onready var globalInfo = $GlobalInformation
 func _IsPlayerDefeted():
 	for player in players:
 		if player.castles.is_empty():
 			players.pop_at(players.find(player,0))
 			for unit in player.units:
 				unit.queue_free()
+			globalInfo.info = "Gracz " + str(player.playerName) + " został pokonany"
+			globalInfo.visible = true
 			player.queue_free()
-	IsGameEnd()
 	pass
+
+
+@export var fog: Sprite2D
+@export var LightTexture: CompressedTexture2D
+@export var debounce_time = 0.01
+
+
+var fogImage: Image
+var lightImage: Image
+var light_offset: Vector2
+var fogTexture: ImageTexture
+var light_rect: Rect2

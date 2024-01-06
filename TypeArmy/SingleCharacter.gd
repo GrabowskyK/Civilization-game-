@@ -17,6 +17,7 @@ var attack : int = 1
 var defense : int = 1
 var movePoints : int = 1
 var texture_ = preload("res://army/farner.png")
+var mainNode
 
 var id_path
 var isSelected = false
@@ -49,6 +50,7 @@ func Create(jednostka : TypeArmy, currentPlayer):
 	flagTexture = currentPlayer.playerFlag
 
 func _ready():
+	mainNode = get_parent()
 	unitFlag.texture = load(flagTexture)
 	healthBar.min_value = 0
 	healthBar.max_value = health
@@ -98,7 +100,6 @@ func _input(event: InputEvent) -> void:
 			makeMove = true
 			
 		if event is InputEventMouse and isSelected == true and makeMove == false and rememberPoints.is_empty():
-			
 			if is_moving:
 				id_path = astargrid.get_id_path(
 					map.local_to_map(global_position),
@@ -109,6 +110,7 @@ func _input(event: InputEvent) -> void:
 					map.local_to_map(global_position),
 					map.local_to_map(get_global_mouse_position())			
 				)
+			id_path.pop_front()
 			
 			if id_path.is_empty() == false:
 				current_id_path = id_path
@@ -116,6 +118,8 @@ func _input(event: InputEvent) -> void:
 					map.local_to_map(global_position),
 					map.local_to_map(get_global_mouse_position())
 				)
+
+				
 			for i in current_point_path.size():
 				current_point_path[i] = current_point_path[i] + Vector2(32,32)
 
@@ -131,12 +135,11 @@ func _on_mouse_exited() -> void:
 
 
 func _on_area_entered(area: Area2D) -> void:
-	print(area)
-	print(self)
-	self.position = area.position
-	makeMove = false
 	if self.player != area.player:
 		if self.isEntered == false and area.isEntered == false:
+			self.makeMove = false
+			self.isSelected = false
+			self.position = area.position
 			self.isEntered = true
 			area.isEntered = true
 			var fightSystemPath = preload("res://FightSystem/fight_system.tscn")
@@ -167,7 +170,8 @@ func _on_area_entered(area: Area2D) -> void:
 				else:
 					self.player.units.pop_at(player.units.find(area,0))
 				self.queue_free()
-			fightNode.queue_free()	
+			
+			fightNode.queue_free()
 	get_parent()._IsPlayerDefeted()
 	pass # Replace with function body.
 
@@ -188,25 +192,25 @@ func _on_popup_menu_id_pressed(id: int) -> void:
 			print("Exit")
 	pass
 
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	if current_id_path.is_empty():
 		makeMove = false
-		return
-	if makeMove == true and isSelected == true:
+		return 
+	elif makeMove == true and isSelected == true:
 		if is_moving == false:
+			print(mainNode)
 			target = map.map_to_local(current_id_path.front())
 			is_moving = true
-		
-		if global_position == target and movement > 0:
+			
+		if target != position and movement > 0:
+			position = position.move_toward(target,10)
+			mainNode.update_fog(position, player.fogTexture)
+		elif target == position and movement > 0:
 			current_id_path.pop_front()
-			movement -= 1
 			emit_signal("DeleteLine")
-		
-		if(movement >= 0):
-			global_position = global_position.move_toward(target,10)
-		else:
-			makeMove = false
+			movement -= 1
 			is_moving = false
+			
 			
 		if current_id_path.is_empty() == false:
 			target = map.map_to_local(current_id_path.front())

@@ -2,6 +2,11 @@ extends CanvasLayer
 @onready var listPlayers = $PanelContainer/VBoxContainer2/MarginContainer/ScrollContainer/ListPlayer
 # Przełączanie pomiędzy scenami
 # Wczytaj nową scenę (np. "res://sceny/Gra.tscn") i przełącz się na nią
+
+func _ready() -> void:
+	GlobalVariables.flags = []
+	GlobalVariables.names = []
+
 func load_and_switch_to_game_scene() -> void:
 	get_tree().change_scene_to_file("res://FullGame/Civilization.tscn")
 	

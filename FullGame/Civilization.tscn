@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://t5n4swte65e7"]
+[gd_scene load_steps=12 format=3 uid="uid://t5n4swte65e7"]
 
 [ext_resource type="Script" path="res://FullGame/Civilization.gd" id="1_2jp8o"]
+[ext_resource type="Texture2D" uid="uid://d3d3bg3kvfqc6" path="res://FullGame/light256.png" id="2_gkttd"]
 [ext_resource type="PackedScene" uid="uid://ccwobfq8m53gq" path="res://MapGame/mapa.tscn" id="3_0o4qs"]
 [ext_resource type="PackedScene" uid="uid://bayv8ioqsnh2e" path="res://camera_2d.tscn" id="4_pjtdy"]
 [ext_resource type="Script" path="res://FullGame/PathScript.gd" id="6_lh4wr"]
@@ -8,9 +9,15 @@
 [ext_resource type="Texture2D" uid="uid://df6pnfsqcsxl3" path="res://coin.png" id="7_yvqaf"]
 [ext_resource type="Script" path="res://Player/PlayerVariables.gd" id="8_htjaf"]
 [ext_resource type="Texture2D" uid="uid://cmqawf6evsdgl" path="res://menu/flags/ag.png" id="8_phbxp"]
+[ext_resource type="Script" path="res://FullGame/GlobalInformation.gd" id="9_etvbw"]
 
-[node name="Civilization" type="Node2D"]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_u672t"]
+blend_mode = 3
+
+[node name="Civilization" type="Node2D" node_paths=PackedStringArray("fog")]
 script = ExtResource("1_2jp8o")
+fog = NodePath("Fog")
+LightTexture = ExtResource("2_gkttd")
 
 [node name="TileMap" parent="." instance=ExtResource("3_0o4qs")]
 layer_1/tile_data = PackedInt32Array(-131073, 131074, 1, -196612, 131074, 1, -5, 131074, 1, 65537, 2, 1, -65536, 2, 2, -131070, 2, 1, 131071, 2, 2, 0, 196610, 1, 1, 2, 2, -65534, 2, 2, -65535, 2, 2, 2, 2, 2, 3, 2, 2, -65533, 2, 2, -131069, 2, 2, 262142, 65538, 1, 196610, 65538, 1, 131075, 65538, 1, 196612, 65538, 1, 196613, 65538, 1)
@@ -205,5 +212,79 @@ metadata/player = NodePath("")
 position = Vector2(0, -1)
 script = ExtResource("8_htjaf")
 
+[node name="GlobalInformation" type="CanvasLayer" parent="."]
+layer = 9
+visible = false
+script = ExtResource("9_etvbw")
+
+[node name="PanelContainer" type="PanelContainer" parent="GlobalInformation"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -230.0
+offset_top = -129.0
+offset_right = 230.0
+offset_bottom = 129.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="GlobalInformation/PanelContainer"]
+layout_mode = 2
+color = Color(0.239216, 0.239216, 0.239216, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="GlobalInformation/PanelContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ColorRect" type="ColorRect" parent="GlobalInformation/PanelContainer/ColorRect/MarginContainer"]
+layout_mode = 2
+color = Color(0.290196, 0.290196, 0.290196, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="GlobalInformation/PanelContainer/ColorRect/MarginContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GlobalInformation/PanelContainer/ColorRect/MarginContainer/ColorRect/MarginContainer"]
+layout_mode = 2
+
+[node name="Info" type="Label" parent="GlobalInformation/PanelContainer/ColorRect/MarginContainer/ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 20
+text = "Tutaj informacja co się stałoTutaj informacja co się stałoTutaj informacja co się stałoTutaj informacja co się stało"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="OkButton" type="Button" parent="GlobalInformation/PanelContainer/ColorRect/MarginContainer/ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "OK"
+
+[node name="Fog" type="Sprite2D" parent="."]
+z_index = 10
+material = SubResource("CanvasItemMaterial_u672t")
+centered = false
+offset = Vector2(-1200, -1280)
+
 [connection signal="pressed" from="Console/UI/MarginContainer/VBoxContainer/New turn" to="." method="_RefreshVariableOnTurn"]
 [connection signal="pressed" from="Console/New turn" to="." method="_RefreshVariableOnTurn"]
+[connection signal="pressed" from="GlobalInformation/PanelContainer/ColorRect/MarginContainer/ColorRect/MarginContainer/VBoxContainer/OkButton" to="GlobalInformation" method="_on_ok_button_pressed"]

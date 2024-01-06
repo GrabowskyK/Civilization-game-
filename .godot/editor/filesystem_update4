@@ -1,10 +1,12 @@
 res://FullGame/Civilization.tscn
 res://army/Knight.gd
+res://FullGame/Camera2D.gd
 res://FullGame/Civilization.gd
 res://MapGame/TileSelectShader.gdshader
 res://MapGame/TileSelectMaterial.material
+res://Player/PlayerVariables.gd
+res://menu/menu.tscn
 res://GameEnd/game_end.tscn
-res://FightSystem/fight_system.tscn
-res://TypeArmy/SingleCharacter.tscn
-res://Castle/Castle.tscn
-res://Castle/Control/TestcontrolPoMarginie.tscn
+res://army/Knight.tscn
+res://TypeArmy/SingleCharacter.gd
+res://army/PopupMenuKnight.gd

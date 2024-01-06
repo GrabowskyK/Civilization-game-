@@ -20,9 +20,8 @@ func dir_contents(path):
 		var file_name = dir.get_next()
 		while file_name != "":
 			if dir.current_is_dir():
-				print("Found directory: " + file_name)
+				continue
 			else:
-				print(file_name)
 				flags.append(file_name)
 			file_name = dir.get_next()
 	else:

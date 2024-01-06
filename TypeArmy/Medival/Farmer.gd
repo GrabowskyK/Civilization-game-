@@ -5,7 +5,7 @@ class_name Farmer
 func _init():
 	nameArmy = "Farmer"
 	health = 5
-	attack = 1
+	attack = 10
 	defense= 1
 	movePoints = 3
 	cost = 2

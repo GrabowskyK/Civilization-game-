@@ -112,7 +112,8 @@ func fightSystem():
 		#print("Unit1 attack:", tempAttackUnit1 - (tempAttackUnit1 * tempDefendUnit1/100), "Dmg:", dmgUnit1, " Health: ",unit1.health)
 		#print("Unit2 attack", tempAttackUnit2 - (tempAttackUnit2 * tempDefendUnit2/100), "Dmg:", dmgUnit2, " Health: ", unit2.health)
 		await(get_tree().create_timer(1).timeout)
-			
+	self.visible = false
+	
 func RemoveUnit():
 	print(unit1.health)
 	print(unit2.health)

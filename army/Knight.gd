@@ -24,7 +24,7 @@ var is_moving: bool
 var current_point_path: PackedVector2Array
 var rememberPoints: PackedVector2Array
 var movement = 10
-
+var mainNode 
 
 signal GetLocalTileMap
 signal CreateCastle
@@ -39,7 +39,7 @@ func setStats(Attack, Defense, MovePoints, Player):
 	player = Player
 
 func _ready():
-	print(player)
+	mainNode = get_parent()
 	textureKnight.texture = texture_
 	astargrid = AStarGrid2D.new()
 	astargrid.region = map.get_used_rect()
@@ -143,10 +143,8 @@ func _on_area_entered(area: Area2D) -> void:
 func _on_popup_menu_id_pressed(id: int) -> void:
 	match id:
 		popupMenu.PopupIds.move:
-			print("move")
 			isSelected = true
 		popupMenu.PopupIds.createCastle:
-			print("CreateCastle")
 			emit_signal("CreateCastle")
 		popupMenu.PopupIds.createFarm:
 			emit_signal("CreateFarm")
@@ -174,6 +172,7 @@ func _physics_process(delta: float) -> void:
 		
 		if(movement >= 0):
 			global_position = global_position.move_toward(target,10)
+			mainNode.update_fog(self.position)
 		else:
 			makeMove = false
 			is_moving = false

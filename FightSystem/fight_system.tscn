@@ -7,10 +7,11 @@
 [ext_resource type="Texture2D" uid="uid://qwfpdrqjrun2" path="res://menu/flags/bb.png" id="5_2nty8"]
 
 [node name="FightSystem" type="CanvasLayer"]
-layer = 3
+layer = 9
 script = ExtResource("1_pk3oi")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="Panel" parent="."]
+z_index = 7
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -19,6 +20,8 @@ grow_vertical = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
 layout_mode = 2
+offset_right = 1600.0
+offset_bottom = 900.0
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/HBoxContainer"]
 layout_mode = 2

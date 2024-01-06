@@ -20,3 +20,4 @@ var additionalGold = 0
 #liczba pozwala na. no kurwa wiesz jaka jest obecnie cywilzacja i im mniejsze liczba tym gorszy itd.
 var numberCivilization = 0
 
+var fogTexture = ""

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dksajem2pwx5p"
-path="res://.godot/imported/tiles-kopia.png-de57dbb94ee60323455fe90824c8b152.ctex"
+uid="uid://bt63q2rm57w53"
+path="res://.godot/imported/Light.png-f6ffbdad2c3af5c4acd92c95c4be892c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://map/tiles-kopia.png"
-dest_files=["res://.godot/imported/tiles-kopia.png-de57dbb94ee60323455fe90824c8b152.ctex"]
+source_file="res://FullGame/Light.png"
+dest_files=["res://.godot/imported/Light.png-f6ffbdad2c3af5c4acd92c95c4be892c.ctex"]
 
 [params]
 
