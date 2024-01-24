@@ -1,7 +1,6 @@
 extends Node2D # Inherits from the Global Node2D class
 
 class_name TypeArmy
-
 var number #Sluzy do tego aby latwo rozpoznac jednostke
 var nameArmy
 var health: int 
@@ -13,6 +12,7 @@ var _texture
 var opis 
 var _player
 var timeToRecruit
+
 func _init():
 	nameArmy = ""
 	attack = 1

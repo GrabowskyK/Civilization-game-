@@ -7,7 +7,7 @@
 custom_minimum_size = Vector2(0, 50)
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 197.0
+offset_bottom = 183.0
 grow_horizontal = 2
 size_flags_horizontal = 3
 script = ExtResource("1_cycbl")
@@ -17,37 +17,14 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.2
 texture = ExtResource("2_lxr3x")
+stretch_mode = 5
 
 [node name="NamePlayer" type="TextEdit" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.7
 theme_override_font_sizes/font_size = 42
 placeholder_text = "Nazwa Gracza"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.2
-
-[node name="easy" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_font_sizes/font_size = 40
-text = "Easy"
-
-[node name="Medium" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_font_sizes/font_size = 40
-text = "Medium"
-
-[node name="Hard" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_font_sizes/font_size = 40
-text = "Hard"
 
 [node name="Button" type="Button" parent="."]
 modulate = Color(0.976471, 0, 0, 1)

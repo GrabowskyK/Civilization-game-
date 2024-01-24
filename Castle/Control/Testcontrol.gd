@@ -1,4 +1,6 @@
-extends Control
+extends CanvasLayer
+@onready var windowSize = $PanelContainer
+
 
 @onready var nameCastle = $PanelContainer/Box/VBoxContainer/PanelContainer/HBoxContainer/Numbers/NameCastle
 @onready var foodValue = $PanelContainer/Box/VBoxContainer/PanelContainer/HBoxContainer/Numbers/FoodValue
@@ -9,18 +11,22 @@ extends Control
 @onready var inProgressView = $PanelContainer/Box/VBoxContainer/HBoxContainer/InProgress
 @onready var totalFood = $PanelContainer/Box/VBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/Label2
 @onready var totalGold = $PanelContainer/Box/VBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer2/Label2
-
+@onready var healthValue = $PanelContainer/Box/VBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer3/HealthValue
 @onready var tempBuild = $PanelContainer/Box/VBoxContainer/HBoxContainer/Buildings/MarginContainer2/Buildings
 @onready var tempArmy = $PanelContainer/Box/VBoxContainer/HBoxContainer/Army/MarginContainer2/GridContainer
 var inProgressBuild : Array = []
 var inProgressArmy : Array = []
-
+var parent
+func _ready() -> void:
+	parent = get_parent()
+	nameCastle.text = parent.castleName 
+	
 func _on_close_pressed() -> void:
-	var parent = get_parent()
 	self.visible = false
 	parent.isCastleSelected = false
 	parent.mainNode.lockZooming = true
 	parent.mainNode.camera.zoom = Vector2(1.5,1.5)
+	parent.mainNode.consoleUI.visible = true
 	pass # Replace with function body.
 
 signal CreateJednostke_v2(jednostka)

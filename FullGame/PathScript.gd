@@ -2,12 +2,12 @@ extends Node2D
 
 @onready var player = $"../Knight2"
 var timerVar = 0
-
+var pause = false
 func _process(delta):
 	queue_redraw()
 
 func _draw():
-	if  player == null or player.current_point_path.is_empty():
+	if  player == null or player.current_point_path.is_empty() or pause == true:
 		return
 
 	# Ustaw kolory dla punktów

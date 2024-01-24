@@ -9,6 +9,6 @@ func _init():
 	defense= 25
 	movePoints = 6
 	cost = 35
-	_texture = "res://TypeArmy/Army lvl2/STFourSwords.png"
+	_texture = "res://TypeArmy/Army lvl2/STJedi.png"
 	opis = "Simple jedi"
 	timeToRecruit = 6

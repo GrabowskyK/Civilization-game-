@@ -74,6 +74,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("1_e85h3")
+flip_h = true
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="PanelContainer/HBoxContainer/MarginContainer/ColorRect/VBoxContainer"]
 z_index = 2
@@ -195,7 +196,6 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("1_e85h3")
-flip_h = true
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="PanelContainer/HBoxContainer/MarginContainer2/ColorRect/VBoxContainer"]
 z_index = 2
@@ -260,6 +260,7 @@ theme_override_font_sizes/font_size = 24
 text = "-10"
 
 [node name="Button" type="Button" parent="."]
+visible = false
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0

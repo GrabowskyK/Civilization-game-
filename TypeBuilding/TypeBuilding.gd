@@ -5,12 +5,12 @@ var number #Sluzy do tego aby latwo rozpoznac jednostke
 var nameBuilding
 var requiredGold 
 var requiredFood
-#var reuqiredPeople
 var incomeGold
 var incomeFood
 var faith
 var additionalAttack
 var additionalDefense
+var additionalFaith
 var _texture
 var opis
 var timeToBuild
@@ -37,3 +37,6 @@ func setAdditionalDefense(defense):
 	
 func setFaith(faithValue):
 	faith = faithValue
+	
+func setAdditionalFaith(faithValue):
+	additionalFaith = faithValue
