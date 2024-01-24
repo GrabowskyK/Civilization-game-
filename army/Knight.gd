@@ -86,10 +86,6 @@ func _input(event: InputEvent) -> void:
 				rememberPoints = current_point_path.duplicate()
 			current_point_path.clear()
 			
-		if event.is_action_pressed("aLeft"):
-			movement = 10
-			makeMove = false
-			isSelected = false
 			
 		if event is InputEventMouseButton and event.double_click and isSelected:
 			makeMove = true

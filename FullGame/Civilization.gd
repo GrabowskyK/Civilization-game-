@@ -3,11 +3,12 @@ extends Node2D
 @onready var camera = $Camera2D
 @onready var map = $TileMap
 @onready var labelSelectCastle = $LabelSelectCastle
-@onready var console = $Console/Text
 @onready var path = $Path
 @onready var currentPlayer = $PlayerVariables
 @onready var turnButton = $Console/UI/MarginContainer/VBoxContainer/Day
 @onready var FogNode = $Fog
+@onready var consoleUI = $Console
+@onready var infoGameTextBox = $InfoGame/PanelContainer/VBoxContainer/Info
 
 var playerVariablePath = ""
 #var players : Array = [ PlayerClass.new(), PlayerClass.new(), PlayerClass.new()]
@@ -41,6 +42,7 @@ var fogImage1
 var fogImage2
 var fogImage3
 var fogImage4
+var cities : Array = []
 func _ready() -> void:
 		# get Image from CompressedTexture2D and resize it
 	lightImage = LightTexture.get_image()
@@ -77,9 +79,10 @@ func _ready() -> void:
 			newPlayer.playerName = GlobalVariables.names[i]
 			newPlayer.fogTexture = fogImageArray[i]
 			players.append(newPlayer)
-	
+
 	StartGame()
 	setCurrentPlayerNextPlayer(players[0])
+	SetCamerOnFirstPlayersCastle()
 	windowSize = self.get_viewport_rect()
 	RefreshTheHUD()
 	pass # Replace with function body.
@@ -88,25 +91,21 @@ func update_fog(pos, image):
 	image.blend_rect(lightImage, light_rect, pos - light_offset - fog.offset)
 	fog.texture.update(image)
 	
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("saveButton"):
+		SaveData(saveDirPath + saveFileName)
+	if event.is_action_pressed("loadButton"):
+		LoadData(saveDirPath + saveFileName)
+	pass
 	
 func _process(delta: float) -> void:
 	pass
 	
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("click"):
-		print(fog)
-		print(fogTexture)
-		print(fogImage)
-		var a = fogTexture
-		var b = fogImage
-#	if event.is_action_pressed("right_click"):
-#		fogImage = Image.create(52 * tileSize, 40 * tileSize, false, Image.FORMAT_RGBA8)
-#		fogImage.fill(Color.BLACK)
-#		fogTexture = ImageTexture.create_from_image(fogImage)
-#		fog.texture = fogTexture
-#
-	
 func StartGame():
+	cities.append(polishCities.duplicate())
+	cities.append(germanCities.duplicate())
+	cities.append(norwegianCities.duplicate())
+	cities.append(egyptianCities.duplicate())
 	var jednostkaPath = load("res://TypeArmy/SingleCharacter.tscn")
 	var castle_scene = load("res://Castle/Castle.tscn")
 	var sizeMap = map.get_used_rect()
@@ -119,12 +118,13 @@ func StartGame():
 		if(tile_data.get_custom_data("walkable") == true):		
 			var castle_node = castle_scene.instantiate()
 			castle_node.position = castlePosition
-			castle_node.castleName = randomCastleName()
+			castle_node.castleName = randomCastleName(players[i])
 			castle_node.player = players[i]
 			add_child(castle_node)
 			castle_node.connect("CreateJednostka_v3",_CreateJednostkaFromCastle)
 			camera.input_vector = castlePosition
-			players[i].castleFields.push_back(castle_node)
+			#players[i].castleFields.push_back(castle_node)
+			#players[i].castles.push_back(castle_node)
 			#map.set_cell(4,castlePosition,2,Vector2i(0,7))
 			players[i].castles.append(castle_node)
 			update_fog(castle_node.position, players[i].fogTexture)
@@ -153,32 +153,40 @@ func StartGame():
 	
 
 func _on_knight_create_castle() -> void:
-	var newCastlePosition : Vector2 = Vector2(0,0)
-	newCastlePosition.x =  map.localTile.x * tileSize + tileSize/2
-	newCastlePosition.y =  map.localTile.y * tileSize + tileSize/2
-	for castle in currentPlayer.castleFields:
-		var localPositionCastle = Vector2(map.local_to_map(castle.position))
-		#Poniższa liniijka sprawdza jak daleko jest punkt od punktu. Układ współrzędnych
-		var distance: float = localPositionCastle.distance_to(Vector2(map.local_to_map(newCastlePosition)))
-		if distance <= 5:
-			print("Zamek nie może stać zbyt blisko innego 5x5")
-			return
-	if map.get_cell_alternative_tile(2,map.localTile) != 0 and map.get_cell_alternative_tile(4,map.localTile) != 0:
-		var castle_scene = load(castle_scene_path)
-		var castle_node = castle_scene.instantiate()
-		castle_node.position = newCastlePosition
-		castle_node.castleName = randomCastleName()
-		castle_node.player = currentPlayer
-		add_child(castle_node)
-		castle_node.connect("CreateJednostka_v3",_CreateJednostkaFromCastle)
-		camera.input_vector = newCastlePosition
-		#console.text += "Stworzono zamek \n"
-		currentPlayer.castleFields.push_back(castle_node)
-		map.set_cell(4,map.localTile,2,Vector2i(0,7))
-		currentPlayer.castles.append(castle_node)
-		update_fog(castle_node.position, currentPlayer.fogTexture)
-	else:
-		console.text += "Nie można utworzyć tutaj zamku"
+	# Sprwadzanie czy gracz posiada wystarczająco surowców
+	if currentPlayer.gold >= 20 and currentPlayer.food >= 20:
+		currentPlayer.gold -= 20 
+		currentPlayer.food -= 20
+		RefreshTheHUD()
+		var newCastlePosition : Vector2 = Vector2(0,0)
+		newCastlePosition.x =  map.localTile.x * tileSize + tileSize/2 # Odniesienie się do sceny (mapy)
+		newCastlePosition.y =  map.localTile.y * tileSize + tileSize/2
+		for castle in currentPlayer.castles:
+			var localPositionCastle = Vector2(map.local_to_map(castle.position))
+			#Poniższa liniijka sprawdza jak daleko jest punkt od punktu. Układ współrzędnych
+			var distance: float = localPositionCastle.distance_to(Vector2(map.local_to_map(newCastlePosition)))
+			if distance <= 5:
+				currentPlayer.infoText += "Zamek nie może stać zbyt blisko innego 5x5" + "\n" 
+				RefreshInfoConsole()
+				return
+		# Sprwadza czy już na danym "kafelku" występuje zamek lub farma
+		if map.get_cell_alternative_tile(2,map.localTile) != 0 and map.get_cell_alternative_tile(4,map.localTile) != 0:
+			var castle_scene = load(castle_scene_path) # Ładowanie sceny do stworzenia instancji
+			var castle_node = castle_scene.instantiate() # Tworzenie instnacji ze sceny
+			castle_node.position = newCastlePosition 
+			castle_node.castleName = randomCastleName(currentPlayer)
+			castle_node.player = currentPlayer
+			add_child(castle_node) # Dodanie instnacji do drzewa projektu
+			castle_node.connect("CreateJednostka_v3",_CreateJednostkaFromCastle) # Podłaczenie syngału 
+			camera.input_vector = newCastlePosition
+			map.set_cell(4,map.localTile,2,Vector2i(0,7))
+			currentPlayer.castles.append(castle_node)
+			update_fog(castle_node.position, currentPlayer.fogTexture)
+			currentPlayer.infoText += "Gracz " + currentPlayer.playerName + " zbudował zamek." + "\n"
+			RefreshInfoConsole()
+		else:
+			currentPlayer.infoText += "Nie można utworzyć tutaj zamku" + "\n"
+			RefreshInfoConsole()
 	return
 
 func _CreateJednostkaFromCastle(jednostka, positionToSetUnit):
@@ -200,28 +208,12 @@ func _CreateJednostkaFromCastle(jednostka, positionToSetUnit):
 	update_fog(jednostkaNode.position, currentPlayer.fogTexture)
 	pass
 	
-	
 
-var exampleCities : Array = [
-	"Katowice",
-	"Gliwice",
-	"Sosnowiec",
-	"Zabrze",
-	"Bytom",
-	"Ruda Śląska",
-	"Tychy",
-	"Dąbrowa Górnicza",
-	"Chorzów",
-	"Jaworzno",
-	"Mysłowice",
-	"Siemianowice Śląskie",
-	"Świętochłowice",
-	"Czeladź",
-	"Knurów",
-	"Piekary Śląskie",
-	"Częstochowa"
-]
-func randomCastleName() -> String: #Tutaj może wyrzucać bład
+
+func randomCastleName(player) -> String: #Tutaj może wyrzucać bład
+	var playerIndex = players.find(player,0)
+	var exampleCities
+	exampleCities = cities[playerIndex]
 	if exampleCities.size() > 0:
 		var randomNumber = randi() % exampleCities.size()
 		var randomName = exampleCities[randomNumber]
@@ -239,34 +231,45 @@ func _on_knight_2_create_farm() -> void:
 	if map.get_cell_alternative_tile(2,map.localTile) != 0 and map.get_cell_alternative_tile(4,map.localTile) != 0 and currentPlayer.food >= 2 and currentPlayer.gold >=1:
 		map.set_cell(2,map.localTile,2,Vector2i(2,2))
 		currentPlayer.foodFields.push_back([map.localTile,7])
-		currentPlayer.food -= 2
-		currentPlayer.gold -= 1
+		currentPlayer.food -= 3
+		currentPlayer.gold -= 2
 		RefreshTheHUD()
-	elif currentPlayer.food < 2 or currentPlayer.gold < 1:
-		console.text += "Nie masz wystarczająco surowców"
+	elif currentPlayer.food < 3 or currentPlayer.gold < 2:
+		currentPlayer.infoText += "Nie masz wystarczająco surowców" + "\n"
+		RefreshInfoConsole()
 	else:
-		console.text += "Nie można utworzyć tutaj farmy"
+		currentPlayer.infoText += "Nie można utworzyć tutaj farmy" + "\n"
+		RefreshInfoConsole()
 	RefreshTheHUD()
 	pass 
 
 var i = 1
+
 #To dotyczy kiedy nastapi nowa tura
 func _RefreshVariableOnTurn() -> void:
-	RefreshFarmTileOnCurrentPlayer()
-	RefreshCastleFarms()
-	#SubItemsInProgress(currentPlayer)
-	setCurrentPlayerNextPlayer(players[i%players.size()])
-	fog.texture = ImageTexture.create_from_image(currentPlayer.fogTexture)
-	SubItemsInProgress(currentPlayer)
-	CheckIfPossibleToUpgradeCivilization(currentPlayer)
-	RefreshTheHUD()
-	RefreshUnitMovePoints()
+	RefreshFarmTileOnCurrentPlayer() # Generuje dodatkowo surowce
+	RefreshCastleFarms() # Odświeża pola farmy
+	SetUnitsToNotSelected() # Powoduje, że żadna jednostka nie jest wybrana
+	setCurrentPlayerNextPlayer(players[i%players.size()]) # Zmiana tury na kolejnego gracza
+	RefreshInfoConsole() # Zmienia wyświetlaną konsole
+	SetCamerOnFirstPlayersCastle() # Ustawia kamere na [0] zamek gracza
+	PlayerIncomOnTurn() # Generuje przchod surowców
+	RegenerateUnitsHp() # Regeneruje zdrowie jednostek
+	RegenerateCastlesHp() # Regeneruje zdrowie zamków
+	fog.texture = ImageTexture.create_from_image(currentPlayer.fogTexture) # zmienia "obraz" mgły wojny dla danego gracza
+	SubItemsInProgress(currentPlayer) # Zmiensza czas budowania i rekrutowania jednostek
+	CheckIfPossibleToUpgradeCivilization(currentPlayer) # Sprwadza czy jest możliwość zwiększenia poziomu ciwilizacji
+	RefreshTheHUD() # Odświeża wartości surowców itd. dla gracza
+	RefreshUnitMovePoints() # Odświeża punkty ruchów jednostek
 	if (i%players.size()) == 0:
 		turn += 1
-		turnButton.text = str(turn)
+		turnButton.text = "Dzień: " + str(turn)
 	i += 1
 	
 	pass
+	
+func SetCamerOnFirstPlayersCastle():
+	camera.input_vector = currentPlayer.castles[0].position
 	
 func RefreshFarmTileOnCurrentPlayer():
 	for farm in currentPlayer.foodFields:
@@ -279,19 +282,33 @@ func RefreshFarmTileOnCurrentPlayer():
 
 func RefreshCastleFarms():
 	var foodTemp = 0
-	for farm in currentPlayer.castleFields:
+	#for farm in currentPlayer.castleFields:
+	for farm in currentPlayer.castles:
 		foodTemp += farm.RefreshTheFoodIncome()
 	currentPlayer.food += foodTemp
+
+func SetUnitsToNotSelected():
+	for unit in currentPlayer.units:
+		unit.isSelected = false
+		unit.makeMove = false
+		unit.current_point_path = []
+
+func PlayerIncomOnTurn():
+	currentPlayer.food += currentPlayer.additionalFood
+	currentPlayer.gold += currentPlayer.additionalGold 
+	currentPlayer.faith += currentPlayer.additionalFaith
 
 @onready var foodValue = $Console/UI/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/foodValue
 @onready var goldValue = $Console/UI/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/goldValue
 @onready var playerNameValue = $Console/UI/MarginContainer/VBoxContainer/HBoxContainer3/Label
 @onready var flagValue = $Console/UI/MarginContainer/VBoxContainer/HBoxContainer3/TextureRect
+@onready var faithValue = $Console/UI/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer3/faithValue
 func RefreshTheHUD():
 	foodValue.text = str(currentPlayer.food)
 	goldValue.text = str(currentPlayer.gold)
 	playerNameValue.text = currentPlayer.playerName
 	flagValue.texture = load(currentPlayer.playerFlag)
+	faithValue.text = str(currentPlayer.faith)
 
 func RefreshUnitMovePoints():
 	var nodes_in_group = get_tree().get_nodes_in_group("Units")
@@ -304,7 +321,7 @@ func setCurrentPlayerNextPlayer(player : PlayerClass):
 	currentPlayer.gold = player.gold
 	currentPlayer.playerName = player.playerName
 	currentPlayer.foodFields = player.foodFields
-	currentPlayer.castleFields = player.castleFields
+	#currentPlayer.castleFields = player.castleFields
 	currentPlayer.units = player.units
 	currentPlayer.castles = player.castles
 	currentPlayer.additionalAttack = player.additionalAttack
@@ -332,27 +349,38 @@ func CheckIfPossibleToUpgradeCivilization(player : PlayerClass):
 		if castle.builtBuildings.size() == numberOfBuildings:
 			k += 1
 	if k >= 3:
-		for castle in player.castles:
+		#warunek sprawdza gdyby miały dojść nowe cywilizacje, a numer się nie przekroczył ilości8
+		if currentPlayer.numberCivilization < player.castles[0].control.tempBuild.builds.size():
 			currentPlayer.numberCivilization += 1
+		for castle in player.castles:
 			castle.builtBuildings = []
 			castle.control.tempBuild.RefreshBuildingView()
 			castle.control.tempArmy.RefreshUnitView()
 			castle.health = 125
-			castle.attack = 5
-			castle.defense = 5
+			castle.attack = 50
+			castle.defense = 50
 			castle.side_length += 1
-			castle.income = 5
+			castle.income = 8
 			castle.level += 1
+			castle.additionalAttack = 5
+			castle.additionalDefense = 5
+			castle.additionalFoodIncome = 3
+			castle.additionalGoldIncome = 3
 
 func IsGameEnd():
 	for player in players:
-		if player.faith == 100:
-			print("Player ", players[players.find(player,0)], " wygrał")
+		if player.faith >= 100:
+			var gameEndPath = load("res://GameEnd/game_end.tscn")
+			var gameEndNode = gameEndPath.instantiate()
+			add_child(gameEndNode)
+			gameEndNode.winner.text = currentPlayer.playerName
+			gameEndNode.flag.texture = load(currentPlayer.playerFlag)
 	if players.size() == 1:
-		print("Player ", players[0], " wygrał")
 		var gameEndPath = load("res://GameEnd/game_end.tscn")
 		var gameEndNode = gameEndPath.instantiate()
 		add_child(gameEndNode)
+		gameEndNode.winner.text = "Gracz" + str(currentPlayer.playerName) + " wygrał!"
+		gameEndNode.flag.texture = load(currentPlayer.playerFlag)
 
 @onready var globalInfo = $GlobalInformation
 func _IsPlayerDefeted():
@@ -361,7 +389,7 @@ func _IsPlayerDefeted():
 			players.pop_at(players.find(player,0))
 			for unit in player.units:
 				unit.queue_free()
-			globalInfo.info = "Gracz " + str(player.playerName) + " został pokonany"
+			globalInfo.info.text = "Gracz " + str(player.playerName) + " został pokonany"
 			globalInfo.visible = true
 			player.queue_free()
 	pass
@@ -371,9 +399,174 @@ func _IsPlayerDefeted():
 @export var LightTexture: CompressedTexture2D
 @export var debounce_time = 0.01
 
+func RegenerateUnitsHp():
+	for unit in currentPlayer.units:
+		if unit.health < unit.maxHealth:
+			unit.health += ceil(unit.maxHealth * 0.1)
+			if unit.health > unit.maxHealth:
+				unit.health = unit.maxHealth
+		unit.healthBar.value = unit.health
+		unit.healthValue.text = str(unit.health) + "/" + str(unit.healthBar.max_value)
 
+func RegenerateCastlesHp():
+	for castle in currentPlayer.castles:
+		if castle.health < castle.maxHealth:
+			castle.health += ceil(castle.maxHealth * 0.1)
+			if castle.health > castle.maxHealth:
+				castle.health = castle.maxHealth
+		
 var fogImage: Image
 var lightImage: Image
 var light_offset: Vector2
 var fogTexture: ImageTexture
 var light_rect: Rect2
+
+const saveDirPath = "res://saves/"
+const saveFileName = "save.json"
+#To nie jest bezpieczne
+const securityKey = "A1835JA8JDVASJ8D8"
+
+func SaveData(path : String):
+	var file = FileAccess.open_encrypted_with_pass(path, FileAccess.WRITE, securityKey)
+	if file == null:
+		#Tutaj, że nie udało się zapisać
+		return
+	
+	var data = {
+		"players":[]
+	}
+	
+	for player in players:
+		var playerData = {
+			"playerName": player.playerName,
+			"playerFlag": player.playerFlag,
+			"food": player.food,
+			"gold": player.gold,
+			"faith": player.faith,
+			"additionalAttack": player.additionalAttack,
+			"additionalDefense": player.additionalDefense,
+			"additionalFood": player.additionalFood,
+			"additionalGold": player.additionalGold,
+			"additionalFaith": player.additionalFaith,
+			"numberCivilization": player.numberCivilization,
+			"fogTexture": player.fogTexture,
+			"castles": []
+		}
+		for castle in player.castles:
+			var castleData ={
+				
+			}
+		data.players.append(playerData)
+	
+	
+	var jsonString = JSON.stringify(data, "\t")
+	file.store_string(jsonString)
+	file.close()
+
+func LoadData(path: String):
+	if FileAccess.file_exists(path):
+		var file = FileAccess.open_encrypted_with_pass(path,FileAccess.READ,securityKey)
+		if file == null:
+			return
+		
+		var content = file.get_as_text()
+		file.close()
+		
+		var data = JSON.parse_string(content)
+		if data == null:
+			print("Błąd")
+	else:
+		#
+		return
+
+func RefreshInfoConsole():
+	infoGameTextBox.text = currentPlayer.infoText
+
+var polishCities : Array = [
+	"Katowice",
+	"Gliwice",
+	"Sosnowiec",
+	"Zabrze",
+	"Bytom",
+	"Ruda Śląska",
+	"Tychy",
+	"Dąbrowa Górnicza",
+	"Chorzów",
+	"Jaworzno",
+	"Mysłowice",
+	"Siemianowice Śląskie",
+	"Świętochłowice",
+	"Czeladź",
+	"Knurów",
+	"Piekary Śląskie",
+	"Częstochowa"
+]
+
+var germanCities : Array = [
+	"Berlin",
+	"Hamburg",
+	"Monachium",
+	"Kolonia",
+	"Frankfurt nad Menem",
+	"Stuttgart",
+	"Düsseldorf",
+	"Dortmund",
+	"Essen",
+	"Lipsk",
+	"Drezno",
+	"Hanower",
+	"Norymberga",
+	"Duisburg",
+	"Bochum",
+	"Wuppertal",
+	"Bremeń",
+	"Bonn",
+	"Mannheim",
+	"Karlsruhe"
+]
+
+var norwegianCities : Array = [
+	"Oslo",
+	"Bergen",
+	"Stavanger",
+	"Trondheim",
+	"Drammen",
+	"Fredrikstad",
+	"Kristiansand",
+	"Tromsø",
+	"Sarpsborg",
+	"Skien",
+	"Ålesund",
+	"Sandefjord",
+	"Moss",
+	"Porsgrunn",
+	"Bodø",
+	"Haugesund",
+	"Arendal",
+	"Tønsberg",
+	"Molde",
+	"Kongsberg"
+]
+
+var egyptianCities : Array = [
+	"Kair",
+	"Giza",
+	"Aleksandria",
+	"Szarm el-Szejk",
+	"Luksor",
+	"Asuan",
+	"Hurghada",
+	"6 października",
+	"Tanta",
+	"Ismailia",
+	"Fajum",
+	"Zagazig",
+	"Asyut",
+	"Dumyat",
+	"Kom Ombo",
+	"Port Said",
+	"Mansura",
+	"Al-Mahalla al-Kubra",
+	"El-Minia",
+	"Suez"
+]

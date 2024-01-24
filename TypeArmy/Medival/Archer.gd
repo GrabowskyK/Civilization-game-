@@ -7,7 +7,7 @@ func _init():
 	health = 13
 	attack = 4
 	defense= 1
-	movePoints = 3
+	movePoints = 50
 	cost = 4
 	_texture = "res://TypeArmy/Medival/archer.png"
 	opis = "Simple archer"

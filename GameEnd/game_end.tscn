@@ -35,10 +35,10 @@ layout_mode = 2
 size_flags_vertical = 6
 size_flags_stretch_ratio = 0.0
 theme_override_font_sizes/font_size = 52
-text = "Gracz player0 wygrał"
 horizontal_alignment = 1
 
 [node name="Resonwin" type="Label" parent="MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 6
 size_flags_stretch_ratio = 0.0

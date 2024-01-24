@@ -5,9 +5,9 @@ class_name Knight
 func _init():
 	nameArmy = "Knight"
 	health = 18
-	attack = 3
-	defense= 3
-	movePoints = 3
+	attack = 150
+	defense= 5
+	movePoints = 50
 	cost = 3
 	_texture = "res://TypeArmy/Medival/Knight.png"
 	opis = "Simple knight"
