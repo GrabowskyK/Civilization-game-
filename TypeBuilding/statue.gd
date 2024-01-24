@@ -3,7 +3,7 @@ extends TypeBuilding
 class_name Statue
 
 func _init():
-	nameBuilding = "Statue I"
+	nameBuilding = "Statue"
 	requiredGold = 15
 	requiredFood = 0
 	_texture = "res://TypeBuilding/statue.png"

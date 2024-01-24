@@ -1,7 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://dxr5sl3lgrive"]
 
 [ext_resource type="Script" path="res://Castle/Control/type_army.gd" id="1_3cl22"]
-[ext_resource type="Texture2D" uid="uid://c0s0rbwx3ocuk" path="res://TypeArmy/Medival/Knight.png" id="2_5lgne"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cwkao"]
+load_path = "res://.godot/imported/Knight.png-a6ec6d9e22c3e810f1625e608452228e.ctex"
 
 [node name="VBoxContainer" type="VBoxContainer"]
 offset_right = 300.0
@@ -104,7 +106,7 @@ layout_mode = 2
 [node name="Cost" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 23
-text = "Cost:"
+text = "Food:"
 
 [node name="CostValue" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer4/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
@@ -114,7 +116,7 @@ text = "0"
 [node name="TextureRect" type="TextureRect" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer4"]
 layout_mode = 2
 size_flags_horizontal = 3
-texture = ExtResource("2_5lgne")
+texture = SubResource("CompressedTexture2D_cwkao")
 expand_mode = 3
 
 [node name="Opis" type="Label" parent="ColorRect/MarginContainer/VBoxContainer"]

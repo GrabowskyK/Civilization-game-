@@ -26,7 +26,7 @@ func _ready() -> void:
 		newInstance.defendValue.text = str(item.defense)
 		newInstance.moveValue.text = str(item.movePoints)
 		newInstance.costValue.text = str(item.cost)
-		newInstance.opisValue.text = str(item.opis)
+		newInstance.opisValue.text = "Czas szkolenia: " + str(item.timeToRecruit) + " tury"
 		newInstance.textureValue.texture = load(item._texture)
 		i += 1
 	pass
@@ -38,13 +38,17 @@ func _CreateUnit(jednostka):
 	var parent = mainNode.get_parent()
 	var unit = units[jednostka]
 	if parent.player.gold < unit.cost:
-		print("Masz za mało surowców")
+		parent.mainNode.infoGameTextBox.text += "Masz za mało surowców" + "\n"
 	else:
-		parent.player.gold -= unit.cost
-		mainNode.totalGold.text = str(parent.player.gold)
-		mainNode.inProgressArmy.append(unit.duplicate())
-		#Wysyła unit do progressu
-		emit_signal("SentUnitToProgress",unit.duplicate())
+		#Gdy koszary nie są zbudowane to da się stworzyć tylko farmera
+		if parent.barrackIsBuild == true or jednostka == 0:
+			parent.player.gold -= unit.cost
+			mainNode.totalGold.text = str(parent.player.gold)
+			mainNode.inProgressArmy.append(unit.duplicate())
+			#Wysyła unit do progressu
+			emit_signal("SentUnitToProgress",unit.duplicate())
+		else:
+			parent.get_parent().infoGameTextBox.text += "Nie masz jeszcze zbudowanych koszar!" + "\n"
 	
 func RefreshUnitView():
 	#Gdy bedzie 4 budynki itd to zakutaliozuj do budynkilvl2

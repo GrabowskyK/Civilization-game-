@@ -33,7 +33,7 @@ func _ready() -> void:
 	flagUnit1.texture = load(unit1.flagTexture)
 	nameUnit1.text = unit1.jednostkaName
 	textureUnit1.texture = load(unit1.texture_)
-	healthBarUnit1.max_value = unit1.health
+	healthBarUnit1.max_value = unit1.maxHealth
 	healthBarUnit1.value = unit1.health
 	healthUnit1.text = str(unit1.health)
 	attackValueUnit1.text = str(unit1.attack)
@@ -42,7 +42,7 @@ func _ready() -> void:
 	flagUnit2.texture = load(unit2.flagTexture)
 	nameUnit2.text = unit2.jednostkaName
 	textureUnit2.texture = load(unit2.texture_)
-	healthBarUnit2.max_value = unit2.health
+	healthBarUnit2.max_value = unit2.maxHealth
 	healthBarUnit2.value = unit2.health
 	healthUnit2.text = str(unit2.health)
 	attackValueUnit2.text = str(unit2.attack)
@@ -94,14 +94,14 @@ func fightSystem():
 		tempDefendUnit1 = (unit1.defense + unit1.player.additionalDefense) * randf_range(0.8,1)
 		tempDefendUnit2 = (unit2.defense + unit2.player.additionalDefense) * randf_range(0.8,1)
 		
-		var dmgUnit1 = ceil(tempAttackUnit1 - (tempAttackUnit1 * tempDefendUnit1/100))
-		var dmgUnit2 = ceil(tempAttackUnit2 - (tempAttackUnit2 * tempDefendUnit2/100))
-		await(unitAnimation(textureUnit1))
+		var dmgUnit1 = ceil(tempAttackUnit1 - (tempAttackUnit1 * tempDefendUnit2/100))
+		var dmgUnit2 = ceil(tempAttackUnit2 - (tempAttackUnit2 * tempDefendUnit1/100))
+		await(unitAnimation(textureUnit1)) # Czeka aż funkcja dobiegnie końca i wykonuje animacje ruchu
 		unit2.health -= dmgUnit1
 		dmgToUnit2.text = str(dmgUnit1)
 		healthUnit2.text = str(unit2.health)
 		healthBarUnit2.value = unit2.health
-		await(slide(dmgToUnit2))
+		await(slide(dmgToUnit2)) # Wyświetla liczbe zadanych obrażen
 		if unit2.health > 0:
 			await(unitAnimation(textureUnit2))
 			unit1.health -= dmgUnit2
@@ -109,14 +109,10 @@ func fightSystem():
 			healthUnit1.text = str(unit1.health)
 			dmgToUnit1.text = str(dmgUnit2)
 			await(slide(dmgToUnit1))
-		#print("Unit1 attack:", tempAttackUnit1 - (tempAttackUnit1 * tempDefendUnit1/100), "Dmg:", dmgUnit1, " Health: ",unit1.health)
-		#print("Unit2 attack", tempAttackUnit2 - (tempAttackUnit2 * tempDefendUnit2/100), "Dmg:", dmgUnit2, " Health: ", unit2.health)
 		await(get_tree().create_timer(1).timeout)
 	self.visible = false
 	
 func RemoveUnit():
-	print(unit1.health)
-	print(unit2.health)
 	if unit1.health <= 0:
 		unitToDelete = unit1
 		return unit2

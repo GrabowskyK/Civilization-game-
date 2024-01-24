@@ -14,7 +14,7 @@ enum PopupIds {
 signal GetLocalTileMap
 
 func _ready() -> void:
-	if unit is Farmer or unit is STFarmer:
+	if unit.jednostkaName == "Farmer" or unit.jednostkaName == "Artuditu":
 		self.add_item("Move", PopupIds.move)
 		#self.add_item("Create castle", PopupIds.createCastle)
 		self.add_item("Create farm", PopupIds.createFarm)

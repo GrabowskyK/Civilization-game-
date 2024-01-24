@@ -1,18 +1,24 @@
-[gd_scene load_steps=12 format=3 uid="uid://t5n4swte65e7"]
+[gd_scene load_steps=16 format=3 uid="uid://t5n4swte65e7"]
 
 [ext_resource type="Script" path="res://FullGame/Civilization.gd" id="1_2jp8o"]
 [ext_resource type="Texture2D" uid="uid://d3d3bg3kvfqc6" path="res://FullGame/light256.png" id="2_gkttd"]
 [ext_resource type="PackedScene" uid="uid://ccwobfq8m53gq" path="res://MapGame/mapa.tscn" id="3_0o4qs"]
 [ext_resource type="PackedScene" uid="uid://bayv8ioqsnh2e" path="res://camera_2d.tscn" id="4_pjtdy"]
+[ext_resource type="Texture2D" uid="uid://ddhq2nxctwhjj" path="res://highfive.png" id="5_wfnve"]
 [ext_resource type="Script" path="res://FullGame/PathScript.gd" id="6_lh4wr"]
 [ext_resource type="Texture2D" uid="uid://cnnjjcmjiprst" path="res://bread.png" id="6_qii4f"]
 [ext_resource type="Texture2D" uid="uid://df6pnfsqcsxl3" path="res://coin.png" id="7_yvqaf"]
 [ext_resource type="Script" path="res://Player/PlayerVariables.gd" id="8_htjaf"]
 [ext_resource type="Texture2D" uid="uid://cmqawf6evsdgl" path="res://menu/flags/ag.png" id="8_phbxp"]
 [ext_resource type="Script" path="res://FullGame/GlobalInformation.gd" id="9_etvbw"]
+[ext_resource type="Script" path="res://FullGame/InfoGame.gd" id="12_61gir"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_u672t"]
 blend_mode = 3
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7peff"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fdauc"]
 
 [node name="Civilization" type="Node2D" node_paths=PackedStringArray("fog")]
 script = ExtResource("1_2jp8o")
@@ -21,7 +27,7 @@ LightTexture = ExtResource("2_gkttd")
 
 [node name="TileMap" parent="." instance=ExtResource("3_0o4qs")]
 layer_1/tile_data = PackedInt32Array(-131073, 131074, 1, -196612, 131074, 1, -5, 131074, 1, 65537, 2, 1, -65536, 2, 2, -131070, 2, 1, 131071, 2, 2, 0, 196610, 1, 1, 2, 2, -65534, 2, 2, -65535, 2, 2, 2, 2, 2, 3, 2, 2, -65533, 2, 2, -131069, 2, 2, 262142, 65538, 1, 196610, 65538, 1, 131075, 65538, 1, 196612, 65538, 1, 196613, 65538, 1)
-layer_2/tile_data = PackedInt32Array(262140, 65538, 2, 131068, 65538, 2, 131066, 65538, 2, 262138, 65538, 2, 131064, 131074, 2, 262136, 131074, 2)
+layer_2/tile_data = PackedInt32Array()
 
 [node name="Camera2D" parent="." instance=ExtResource("4_pjtdy")]
 anchor_mode = 1
@@ -32,10 +38,11 @@ anchor_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -288.0
-offset_bottom = 302.0
+offset_left = -320.0
+offset_bottom = 224.0
 grow_horizontal = 0
-size_flags_horizontal = 4
+size_flags_horizontal = 3
+metadata/_edit_use_anchors_ = true
 
 [node name="MarginContainer" type="MarginContainer" parent="Console/UI"]
 layout_mode = 2
@@ -53,7 +60,28 @@ theme_override_constants/separation = 10
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.53
-theme_override_constants/separation = 0
+theme_override_constants/separation = 11
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Console/UI/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+
+[node name="TextureRect" type="TextureRect" parent="Console/UI/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer3"]
+layout_mode = 2
+texture = ExtResource("5_wfnve")
+expand_mode = 3
+
+[node name="gold" type="Label" parent="Console/UI/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer3"]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Gold:"
+
+[node name="faithValue" type="Label" parent="Console/UI/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "0"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Console/UI/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -111,6 +139,7 @@ text = "Player"
 layout_mode = 2
 size_flags_horizontal = 4
 texture = ExtResource("8_phbxp")
+expand_mode = 3
 
 [node name="Day" type="Label" parent="Console/UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -121,88 +150,8 @@ text = "Dzień: 1
 
 [node name="New turn" type="Button" parent="Console/UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 20
 text = "Nowa tura"
-
-[node name="New turn" type="Button" parent="Console"]
-visible = false
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -304.0
-offset_top = 232.0
-offset_right = -137.0
-offset_bottom = 289.0
-grow_horizontal = 0
-theme_override_font_sizes/font_size = 28
-text = "Nowa tura"
-
-[node name="Label" type="Label" parent="Console/New turn"]
-visible = false
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = 37.0
-offset_top = 22.0
-offset_right = 83.0
-offset_bottom = 48.0
-grow_horizontal = 0
-text = "1"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="foodLabel" type="Label" parent="Console"]
-visible = false
-offset_left = 1417.0
-offset_right = 1563.0
-offset_bottom = 26.0
-grow_horizontal = 0
-text = "Food:
-"
-
-[node name="food" type="Label" parent="Console"]
-visible = false
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -140.0
-offset_right = -100.0
-offset_bottom = 23.0
-grow_horizontal = 0
-text = "0
-"
-
-[node name="goldLabel" type="Label" parent="Console"]
-visible = false
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -183.0
-offset_top = 26.0
-offset_right = -142.0
-offset_bottom = 52.0
-grow_horizontal = 0
-text = "Gold:"
-
-[node name="gold" type="Label" parent="Console"]
-visible = false
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -140.0
-offset_top = 26.0
-offset_right = -100.0
-offset_bottom = 52.0
-grow_horizontal = 0
-text = "0"
-
-[node name="PlayerName" type="Label" parent="Console"]
-visible = false
-offset_left = 1417.0
-offset_top = 92.0
-offset_right = 1457.0
-offset_bottom = 115.0
 
 [node name="Path" type="Node2D" parent="."]
 script = ExtResource("6_lh4wr")
@@ -214,7 +163,6 @@ script = ExtResource("8_htjaf")
 
 [node name="GlobalInformation" type="CanvasLayer" parent="."]
 layer = 9
-visible = false
 script = ExtResource("9_etvbw")
 
 [node name="PanelContainer" type="PanelContainer" parent="GlobalInformation"]
@@ -269,7 +217,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 20
-text = "Tutaj informacja co się stałoTutaj informacja co się stałoTutaj informacja co się stałoTutaj informacja co się stało"
+text = "Gracz Kamil został pokonany"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
@@ -285,6 +233,49 @@ material = SubResource("CanvasItemMaterial_u672t")
 centered = false
 offset = Vector2(-1200, -1280)
 
+[node name="InfoGame" type="CanvasLayer" parent="."]
+layer = 11
+script = ExtResource("12_61gir")
+
+[node name="PanelContainer" type="PanelContainer" parent="InfoGame"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -169.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InfoGame/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_constants/separation = 0
+
+[node name="Button" type="Button" parent="InfoGame/PanelContainer/VBoxContainer"]
+modulate = Color(0.988235, 0.988235, 0.988235, 1)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+theme_override_font_sizes/font_size = 7
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_7peff")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_fdauc")
+text = "_________"
+
+[node name="Info" type="TextEdit" parent="InfoGame/PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 19
+editable = false
+wrap_mode = 1
+autowrap_mode = 2
+
 [connection signal="pressed" from="Console/UI/MarginContainer/VBoxContainer/New turn" to="." method="_RefreshVariableOnTurn"]
-[connection signal="pressed" from="Console/New turn" to="." method="_RefreshVariableOnTurn"]
 [connection signal="pressed" from="GlobalInformation/PanelContainer/ColorRect/MarginContainer/ColorRect/MarginContainer/VBoxContainer/OkButton" to="GlobalInformation" method="_on_ok_button_pressed"]
+[connection signal="pressed" from="InfoGame/PanelContainer/VBoxContainer/Button" to="InfoGame" method="_on_button_pressed"]
+[connection signal="text_changed" from="InfoGame/PanelContainer/VBoxContainer/Info" to="InfoGame" method="_on_info_text_changed"]
+[connection signal="text_set" from="InfoGame/PanelContainer/VBoxContainer/Info" to="InfoGame" method="_on_info_text_set"]

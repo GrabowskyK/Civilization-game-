@@ -6,36 +6,24 @@
 [ext_resource type="Script" path="res://Castle/Control/BuildingInProgress.gd" id="4_jvhqw"]
 [ext_resource type="Script" path="res://Castle/Control/ArmyInProgressView.gd" id="5_8yei0"]
 
-[node name="Control" type="Control"]
-visibility_layer = 2
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.5, 0.5)
+[node name="Control" type="CanvasLayer"]
 script = ExtResource("1_ss3e8")
-metadata/_edit_lock_ = true
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 light_mask = 4
 visibility_layer = 4
-layout_mode = 1
-anchors_preset = 15
+anchors_preset = 14
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -842.0
-offset_top = -473.5
-offset_right = 842.0
-offset_bottom = 473.5
+anchor_bottom = 0.5
+offset_left = 40.0
+offset_top = -404.0
+offset_right = 124.0
+offset_bottom = 477.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.9, 0.9)
 size_flags_horizontal = 4
-size_flags_vertical = 4
-metadata/_edit_lock_ = true
 
 [node name="ColorRect" type="ColorRect" parent="PanelContainer"]
 layout_mode = 2
@@ -70,8 +58,7 @@ custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 31
-text = "Zamek nazwa
-"
+text = "Nazwa:"
 horizontal_alignment = 2
 
 [node name="Numbers" type="VBoxContainer" parent="PanelContainer/Box/VBoxContainer/PanelContainer/HBoxContainer"]
@@ -85,9 +72,6 @@ size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 31
 text = "Zamek nazwa
 "
-
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/Box/VBoxContainer/PanelContainer"]
-layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/Box/VBoxContainer"]
 layout_mode = 2
@@ -274,12 +258,28 @@ theme_override_font_sizes/font_size = 42
 text = "0
 "
 
+[node name="HBoxContainer3" type="HBoxContainer" parent="PanelContainer/Box/VBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 40
+
+[node name="Label" type="Label" parent="PanelContainer/Box/VBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "Health:"
+
+[node name="HealthValue" type="Label" parent="PanelContainer/Box/VBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "0
+"
+
 [node name="Close" type="Button" parent="."]
-layout_mode = 0
-offset_left = 802.0
-offset_top = -489.0
-offset_right = 850.0
-offset_bottom = -433.0
+offset_left = 1520.0
+offset_top = 29.0
+offset_right = 1568.0
+offset_bottom = 85.0
 theme_override_font_sizes/font_size = 34
 text = "X"
 

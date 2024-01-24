@@ -1,12 +1,31 @@
 res://FullGame/Civilization.tscn
 res://army/Knight.gd
+res://Castle/Control/Testcontrol.gd
 res://FullGame/Camera2D.gd
 res://FullGame/Civilization.gd
 res://MapGame/TileSelectShader.gdshader
 res://MapGame/TileSelectMaterial.material
+res://Castle/Control/BuildingInProgress.tscn
+res://TypeBuilding/barrack.gd
+res://Castle/Castle.tscn
+res://Castle/Control/TestcontrolPoMarginie.tscn
+res://Castle/Control/BuildingContainer.tscn
+res://Castle/Control/type_army.tscn
+res://Castle/Control/ArmyInProgress.tscn
+res://Castle/Castle.gd
 res://Player/PlayerVariables.gd
-res://menu/menu.tscn
-res://GameEnd/game_end.tscn
-res://army/Knight.tscn
+res://TypeArmy/Army lvl2/STJedi.gd
+res://TypeArmy/Army lvl2/STKnight.gd
+res://TypeArmy/Army lvl2/STYoda.gd
+res://TypeArmy/Army lvl2/STFarmer.gd
+res://menu/StartMenu.tscn
 res://TypeArmy/SingleCharacter.gd
-res://army/PopupMenuKnight.gd
+res://TypeArmy/SingleCharacter.tscn
+res://menu/menu.tscn
+res://FightSystem/fight_system.tscn
+res://TypeArmy/Medival/TypeArmy.gd
+res://TypeBuilding/TypeBuilding.gd
+res://FightSystem/fight_system.gd
+res://TypeArmy/Medival/Knight.gd
+res://GameEnd/game_end.gd
+res://GameEnd/game_end.tscn

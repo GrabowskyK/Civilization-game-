@@ -1,0 +1,50 @@
+[gd_scene load_steps=3 format=3 uid="uid://dhtkfsfu2ejlr"]
+
+[ext_resource type="Script" path="res://menu/StartMenu.gd" id="1_hal6u"]
+[ext_resource type="PackedScene" uid="uid://bnsy67kc6fdy3" path="res://menu/menu.tscn" id="2_abfm0"]
+
+[node name="StartMenu" type="CanvasLayer"]
+script = ExtResource("1_hal6u")
+
+[node name="Menu" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 20
+
+[node name="Start Game" type="Button" parent="Menu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 52
+text = "New game"
+
+[node name="Load Game" type="Button" parent="Menu/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 52
+text = "Load Game"
+
+[node name="Credits" type="Button" parent="Menu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 52
+text = "Credits"
+
+[node name="Quit" type="Button" parent="Menu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 52
+text = "Quit"
+
+[node name="PlayerMenu" parent="." instance=ExtResource("2_abfm0")]
+visible = false
+
+[connection signal="pressed" from="Menu/VBoxContainer/Start Game" to="." method="_on_start_game_pressed"]
